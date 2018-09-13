@@ -7,7 +7,9 @@ contract Cointable {
   struct Establishment {
     uint id;
     string name;
+    address submitter;
   }
+
 
   address public owner;
   string public name;
@@ -38,7 +40,10 @@ contract Cointable {
   }
 
   function addEstablishment(string establishmentName) public returns (uint) {
-    establishments[nextEstablishmentId] = (Establishment(nextEstablishmentId, establishmentName));
+    address from = msg.sender;
+    establishments[nextEstablishmentId] = (
+      Establishment(nextEstablishmentId, establishmentName, from)
+    );
     return nextEstablishmentId++;
   }
 
@@ -48,5 +53,9 @@ contract Cointable {
 
   function getEstablishmentId(uint id) public view returns(uint) {
     return establishments[id].id;
+  }
+
+  function getEstablishmentSubmitter(uint id) public view returns(address) {
+    return establishments[id].submitter;
   }
 }
