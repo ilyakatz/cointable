@@ -14,3 +14,11 @@ To run
 ```
 truffle console
 ```
+
+## Tests
+
+To run autoated tests
+
+```
+truffle test
+```
