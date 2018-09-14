@@ -1,5 +1,6 @@
 pragma solidity ^0.4.22;
 
+
 contract Cointable {
 
   // Reviewable establishment (eg. restaurant/cafe/etc)
@@ -25,7 +26,7 @@ contract Cointable {
 
   mapping(uint256 => Establishment) private establishments;
   mapping(uint256 => Review) private reviews;
-  uint256 private nextEstablishmentId;
+  uint256 public nextEstablishmentId;
   uint256 private nextReviewId;
 
   constructor() public {
@@ -35,6 +36,10 @@ contract Cointable {
     name = "Cointable";
     symbol = "CTABLE";
     nextEstablishmentId = 0;
+  }
+
+  function getInitialSupply() public view returns(uint256) {
+    return initialSupply;
   }
 
   function balanceOf(address addr) public view returns(uint256 balance) {
@@ -48,11 +53,19 @@ contract Cointable {
   function addEstablishment(string establishmentName) public returns (uint) {
     address from = msg.sender;
     establishments[nextEstablishmentId] = Establishment({
-        id: nextEstablishmentId,
-        name: establishmentName,
-        submitter: from
+      id: nextEstablishmentId,
+      name: establishmentName,
+      submitter: from
     });
     return nextEstablishmentId++;
+
+    //TODO
+    //cannot return a value
+    //State changing transactions only return the TX hash as the transaction
+    //has not been mined at the time they should return a value.
+    //The actual value (modified) contract state variable must be read by a
+    //call() function that calls a method that does not modify the contract's
+    //state (basically a read function).
   }
 
   function getEstablishmentName(uint id) public view returns(string) {
