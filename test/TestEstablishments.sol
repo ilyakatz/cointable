@@ -5,7 +5,7 @@ import "truffle/DeployedAddresses.sol";
 import "../contracts/Cointable.sol";
 
 
-contract TestCointable {
+contract TestEstablishments {
 
   Cointable public cointable = Cointable(DeployedAddresses.Cointable());
 

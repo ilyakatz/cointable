@@ -17,8 +17,12 @@ truffle console
 
 ## Tests
 
-To run autoated tests
+To run automated tests
 
 ```
 truffle test
 ```
+
+# Useful links
+
+https://ethereum.stackexchange.com/questions/13167/are-there-well-solved-and-simple-storage-patterns-for-solidity
