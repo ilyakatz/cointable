@@ -1,4 +1,5 @@
 const Cointable = artifacts.require("Cointable");
+const truffleAssert = require('truffle-assertions');
 
 contract("Cointable", async (accounts) => {
   let cointable;
@@ -19,7 +20,7 @@ contract("Cointable", async (accounts) => {
 
   // https://blog.kalis.me/check-events-solidity-smart-contract-test-truffle/
 
-  it("listens to establishment add event", async () => {
+  it("EstablishmentAdded", async () => {
     var event = cointable.EstablishmentAdded({}, { fromBlock: 0, toBlock: 'latest' });
 
     var event = cointable.EstablishmentAdded(async (error, result) => {
@@ -29,9 +30,35 @@ contract("Cointable", async (accounts) => {
         var name = result.args.name;
         assert.equal(name, "Avacado Gallore");
         assert.equal(id, nextId - 1);
+      } else {
+        assert.fail('Error happened');
       }
       event.stopWatching()
     });
-    await cointable.addEstablishment("Avacado Gallore");
+
+  });
+
+  it("sends event when adding an establishment", async () => {
+    let txResult = await cointable.addEstablishment("Apple and Spice");
+
+    truffleAssert.eventEmitted(txResult, 'EstablishmentAdded', (ev) => {
+      return ev.name === "Apple and Spice";
+    });
+  });
+
+  it("getEstablishmentName", async () => {
+    var event = cointable.EstablishmentAdded({}, { fromBlock: 0, toBlock: 'latest' });
+
+    var event = cointable.EstablishmentAdded(async (error, result) => {
+      if (!error) {
+        let nextId = await cointable.nextEstablishmentId.call().valueOf();
+        let id = nextId;
+        let name = await cointable.getEstablishmentName(id);
+        console.log(name);
+        assert.equal(name, "The Coffeeshop");
+      }
+      event.stopWatching()
+    });
+    await cointable.addEstablishment("The Coffeeshop");
   });
 });

@@ -14,7 +14,8 @@
   "license": "ISC",
   "devDependencies": {
     "lite-server": "^2.3.0",
-    "truffle": "latest"
+    "truffle": "latest",
+    "truffle-assertions": "latest"
   },
   "dependencies": {
     "web3": "latest"

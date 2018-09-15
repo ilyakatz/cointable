@@ -44,6 +44,10 @@ contract Cointable {
     return initialSupply;
   }
 
+  function getNextEstablishmentId() public view returns(uint256) {
+    return nextEstablishmentId;
+  }
+
   function balanceOf(address addr) public view returns(uint256 balance) {
     return balances[addr];
   }
@@ -52,7 +56,7 @@ contract Cointable {
     return owner;
   }
 
-  function addEstablishment(string establishmentName) public returns (uint) {
+  function addEstablishment(string establishmentName) public {
     address from = msg.sender;
     establishments[nextEstablishmentId] = Establishment({
       id: nextEstablishmentId,
@@ -60,15 +64,7 @@ contract Cointable {
       submitter: from
     });
     emit EstablishmentAdded(nextEstablishmentId, establishmentName);
-    return nextEstablishmentId++;
-
-    //TODO
-    //cannot return a value
-    //State changing transactions only return the TX hash as the transaction
-    //has not been mined at the time they should return a value.
-    //The actual value (modified) contract state variable must be read by a
-    //call() function that calls a method that does not modify the contract's
-    //state (basically a read function).
+    nextEstablishmentId++;
   }
 
   function getEstablishmentName(uint id) public view returns(string) {
@@ -87,6 +83,7 @@ contract Cointable {
     address from = msg.sender;
     Review memory r = Review(from, review, establishmentId);
     reviews[nextReviewId] = (r);
+    //TODO: cannot return from this function
     return nextReviewId++;
   }
 
