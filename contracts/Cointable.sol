@@ -25,6 +25,8 @@ contract Cointable {
   uint256 private initialSupply = 21000000;
 
   mapping(uint256 => Establishment) private establishments;
+  event EstablishmentAdded(uint256 id, string name);
+
   mapping(uint256 => Review) private reviews;
   uint256 public nextEstablishmentId;
   uint256 private nextReviewId;
@@ -57,6 +59,7 @@ contract Cointable {
       name: establishmentName,
       submitter: from
     });
+    emit EstablishmentAdded(nextEstablishmentId, establishmentName);
     return nextEstablishmentId++;
 
     //TODO
