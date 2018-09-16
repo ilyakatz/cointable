@@ -25,11 +25,12 @@ contract Cointable {
   uint256 private initialSupply = 21000000;
 
   mapping(uint256 => Establishment) private establishments;
+  uint256 public nextEstablishmentId;
   event EstablishmentAdded(uint256 id, string name);
 
   mapping(uint256 => Review) private reviews;
-  uint256 public nextEstablishmentId;
   uint256 private nextReviewId;
+  event ReviewAdded(uint256 establishmentId, string review);
 
   constructor() public {
     owner = msg.sender;
@@ -46,6 +47,10 @@ contract Cointable {
 
   function getNextEstablishmentId() public view returns(uint256) {
     return nextEstablishmentId;
+  }
+
+  function getNextReviewId() public view returns(uint256) {
+    return nextReviewId;
   }
 
   function balanceOf(address addr) public view returns(uint256 balance) {
@@ -67,6 +72,14 @@ contract Cointable {
     nextEstablishmentId++;
   }
 
+  function addReview(string review, uint256 establishmentId) public {
+    address from = msg.sender;
+    Review memory r = Review(from, review, establishmentId);
+    reviews[nextReviewId] = (r);
+    emit ReviewAdded(establishmentId, review);
+    nextReviewId++;
+  }
+
   function getEstablishmentName(uint id) public view returns(string) {
     return establishments[id].name;
   }
@@ -77,14 +90,6 @@ contract Cointable {
 
   function getEstablishmentSubmitter(uint id) public view returns(address) {
     return establishments[id].submitter;
-  }
-
-  function addReview(string review, uint256 establishmentId) public returns(uint256) {
-    address from = msg.sender;
-    Review memory r = Review(from, review, establishmentId);
-    reviews[nextReviewId] = (r);
-    //TODO: cannot return from this function
-    return nextReviewId++;
   }
 
   function getReviewText(uint256 id) public view returns(string) {
