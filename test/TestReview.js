@@ -1,8 +1,5 @@
 const Cointable = artifacts.require("Cointable");
 const truffleAssert = require('truffle-assertions');
-require('chai')
-  .use(require('chai-as-promised'))
-  .should();
 
 //1 ETH = 10^18
 //so this will be 1/1000 of an ETH

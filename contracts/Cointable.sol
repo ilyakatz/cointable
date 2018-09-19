@@ -1,7 +1,12 @@
 pragma solidity ^0.4.22;
 
+import "./strings.sol";
+
 
 contract Cointable {
+
+
+  using strings for *;
 
   // Reviewable establishment (eg. restaurant/cafe/etc)
   struct Establishment {
@@ -83,7 +88,9 @@ contract Cointable {
 
     // revert() and require() both refund any left over gas
     // assert() something very wrong and unexpected has happened
-    require(msg.value >= minimumReviewRequirement, "Minimum value to add review is 1");
+    string memory message =
+      "Minimum value to add review is".toSlice().concat(minimumReviewRequirement.toSlice()); // "abcdef"
+    require(msg.value >= minimumReviewRequirement, message);
 
     reviewBank[owner] += msg.value;
     reviewBankTotal += msg.value;
