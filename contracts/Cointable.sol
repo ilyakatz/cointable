@@ -24,13 +24,19 @@ contract Cointable {
   // borrow initial supply amount from Bitcoin
   uint256 private initialSupply = 21000000;
 
+  uint public reviewBankTotal;
+  mapping(address => uint) public reviewBank;
+
+  // to send a review, user needs to be willing to pay this minimum
+  uint public minimumReviewRequirement = 1 * (10 ** 18);
+
   mapping(uint256 => Establishment) private establishments;
   uint256 public nextEstablishmentId;
   event EstablishmentAdded(uint256 id, string name);
 
   mapping(uint256 => Review) private reviews;
   uint256 private nextReviewId;
-  event ReviewAdded(uint256 establishmentId, string review);
+  event ReviewAdded(uint256 establishmentId, string review, address submitter);
 
   constructor() public {
     owner = msg.sender;
@@ -72,11 +78,27 @@ contract Cointable {
     nextEstablishmentId++;
   }
 
-  function addReview(string review, uint256 establishmentId) public {
+  function addReview(string review, uint256 establishmentId) payable public {
     address from = msg.sender;
-    Review memory r = Review(from, review, establishmentId);
+
+    // revert() and require() both refund any left over gas
+    // assert() something very wrong and unexpected has happened
+    require(msg.value >= minimumReviewRequirement, "Minimum value to add review is 1");
+
+    reviewBank[owner] += msg.value;
+    reviewBankTotal += msg.value;
+
+
+    // Add review
+    Review memory r = Review({
+      submitter: from,
+      review: review,
+      establishmentId: establishmentId
+    });
     reviews[nextReviewId] = (r);
-    emit ReviewAdded(establishmentId, review);
+
+    // Send event that a review is added
+    emit ReviewAdded(establishmentId, review, from);
     nextReviewId++;
   }
 
