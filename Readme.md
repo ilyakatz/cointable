@@ -9,6 +9,23 @@ truffle migrate
 ```
 
 # Development
+## Start the app
+
+1. Install Metamask
+1. Connect Metamask to local RPC ![alt text](./readme/metamask.local.png)
+
+1. Comple and migrate contract
+
+```
+truffle compile
+truffle migrate
+```
+1. Start the web client
+```
+cd client
+yarn start build
+```
+
 
 To run
 ```
