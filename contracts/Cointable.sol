@@ -89,7 +89,7 @@ contract Cointable {
     // revert() and require() both refund any left over gas
     // assert() something very wrong and unexpected has happened
     string memory message =
-      "Minimum value to add review is".toSlice().concat(minimumReviewRequirement.toSlice()); // "abcdef"
+      "Minimum value to add review is".toSlice().concat(" 1".toSlice()); // "abcdef"
     require(msg.value >= minimumReviewRequirement, message);
 
     reviewBank[owner] += msg.value;
