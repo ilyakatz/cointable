@@ -30,7 +30,6 @@ class App extends Component {
       alert(
         `Failed to load web3, accounts, or contract. Check console for details.`
       );
-      console.log(error);
     }
   };
 

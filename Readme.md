@@ -23,7 +23,7 @@ truffle migrate
 1. Start the web client
 ```
 cd client
-yarn start build
+yarn start 
 ```
 
 
