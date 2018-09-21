@@ -6,5 +6,10 @@
       "node_modules/**/*.ts",
       "coverage/lcov-report/*.js"
     ]
+  },
+  "rules": {
+    "no-debugger": false,
+    "jsx-no-multiline-js": false,
+    "no-console": false
   }
 }

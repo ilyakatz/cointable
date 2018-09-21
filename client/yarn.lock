@@ -16,6 +16,26 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
+"@machinomy/types-truffle-contract@https://github.com/machinomy/types-truffle-contract":
+  version "0.0.4"
+  resolved "https://github.com/machinomy/types-truffle-contract#7791242b85875188148e8a89f6b307d140d0d15c"
+  dependencies:
+    "@machinomy/types-web3" "^0.0.4"
+    truffle-contract "^3.0.0"
+    web3 "^0.20.2"
+
+"@machinomy/types-web3@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@machinomy/types-web3/-/types-web3-0.0.4.tgz#aca033c0cabfc89757511410f5d5149af17fb497"
+  dependencies:
+    bignumber.js "^4.0.2"
+
+"@types/bn.js@*":
+  version "4.11.2"
+  resolved "https://registry.yarnpkg.com/@types/bn.js/-/bn.js-4.11.2.tgz#3179b977b9d18aa81f256cae7556282ee99fd1cc"
+  dependencies:
+    "@types/node" "*"
+
 "@types/jest@^23.3.2":
   version "23.3.2"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.3.2.tgz#07b90f6adf75d42c34230c026a2529e56c249dbb"
@@ -47,6 +67,17 @@
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
+
+"@types/underscore@*":
+  version "1.8.9"
+  resolved "https://registry.yarnpkg.com/@types/underscore/-/underscore-1.8.9.tgz#fef41f800cd23db1b4f262ddefe49cd952d82323"
+
+"@types/web3@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@types/web3/-/web3-1.0.6.tgz#ea6bd4591a59efa73c3399b2bf172a268630edbf"
+  dependencies:
+    "@types/bn.js" "*"
+    "@types/underscore" "*"
 
 abab@^2.0.0:
   version "2.0.0"
@@ -1047,6 +1078,10 @@ big.js@^3.1.3:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/big.js/-/big.js-3.2.0.tgz#a5fc298b81b9e0dca2e458824784b65c52ba588e"
 
+bignumber.js@^4.0.2:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-4.1.0.tgz#db6f14067c140bd46624815a7916c92d9b6c24b1"
+
 "bignumber.js@git+https://github.com/frozeman/bignumber.js-nolookahead.git":
   version "2.0.7"
   resolved "git+https://github.com/frozeman/bignumber.js-nolookahead.git#57692b3ecfc98bbdd6b3a516cb2353652ea49934"
@@ -1649,7 +1684,7 @@ commander@2.17.x, commander@~2.17.1:
   version "2.17.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
 
-commander@^2.12.1, commander@^2.8.1:
+commander@^2.12.1, commander@^2.12.2, commander@^2.8.1:
   version "2.18.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.18.0.tgz#2bf063ddee7c7891176981a2cc798e5754bc6970"
 
@@ -7377,7 +7412,14 @@ truffle-contract-schema@^2.0.1:
     crypto-js "^3.1.9-1"
     debug "^3.1.0"
 
-truffle-contract@latest:
+truffle-contract-typescript@latest:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/truffle-contract-typescript/-/truffle-contract-typescript-1.0.13.tgz#964eb57dc62bbe22828c9b894063360b71d3d4a5"
+  dependencies:
+    commander "^2.12.2"
+    typescript "^2.5.3"
+
+truffle-contract@^3.0.0, truffle-contract@latest:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/truffle-contract/-/truffle-contract-3.0.6.tgz#2ef6fc32d7faafa9f4aed8e50001a9fdea342192"
   dependencies:
@@ -7505,6 +7547,10 @@ typedarray-to-buffer@^3.1.2:
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
+
+typescript@^2.5.3:
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
 
 typescript@^3.0.3:
   version "3.0.3"
@@ -8005,6 +8051,12 @@ web3-shh@1.0.0-beta.36:
     web3-core-subscriptions "1.0.0-beta.36"
     web3-net "1.0.0-beta.36"
 
+web3-typescript-typings@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/web3-typescript-typings/-/web3-typescript-typings-0.7.2.tgz#5312bb786936a9c91381eee7af3d02ac21cf13b3"
+  dependencies:
+    bignumber.js "^4.0.2"
+
 web3-utils@1.0.0-beta.36:
   version "1.0.0-beta.36"
   resolved "https://registry.yarnpkg.com/web3-utils/-/web3-utils-1.0.0-beta.36.tgz#dc19c9aeec009b1816cc91ef64d7fe9f8ee344c9"
@@ -8025,6 +8077,16 @@ web3@0.20.6:
     crypto-js "^3.1.4"
     utf8 "^2.1.1"
     xhr2 "*"
+    xmlhttprequest "*"
+
+web3@^0.20.2:
+  version "0.20.7"
+  resolved "https://registry.yarnpkg.com/web3/-/web3-0.20.7.tgz#1605e6d81399ed6f85a471a4f3da0c8be57df2f7"
+  dependencies:
+    bignumber.js "git+https://github.com/frozeman/bignumber.js-nolookahead.git"
+    crypto-js "^3.1.4"
+    utf8 "^2.1.1"
+    xhr2-cookies "^1.1.0"
     xmlhttprequest "*"
 
 web3@latest:
@@ -8283,7 +8345,7 @@ xhr-request@^1.0.1:
     url-set-query "^1.0.0"
     xhr "^2.0.4"
 
-xhr2-cookies@1.1.0:
+xhr2-cookies@1.1.0, xhr2-cookies@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/xhr2-cookies/-/xhr2-cookies-1.1.0.tgz#7d77449d0999197f155cb73b23df72505ed89d48"
   dependencies:
