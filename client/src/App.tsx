@@ -1,27 +1,15 @@
 import { ChangeEvent, Component } from "react";
 import * as React from "react";
+
 // @ts-ignore
 import * as truffleContract from "truffle-contract";
 // @ts-ignore
 import * as Web3 from "web3";
 import "./App.css";
 import * as Cointable from "./contracts/Cointable.json";
+import Establishments from "./Establishments";
+import { ITruffleContract } from "./types";
 import getWeb3 from "./utils/getWeb3";
-
-interface IEvent {
-  watch: (error: any) => void;
-}
-
-interface IContractOptions {
-  from?: string;
-  value?: number;
-}
-interface ITruffleContract {
-  addEstablishment: (name: string, options: IContractOptions) => void;
-  getEstablishmentName: (id: number) => string;
-  ReviewAdded: (options: {}, abc: string) => IEvent;
-  addReview: (review: string, establishmentId: number, options: {}) => void;
-}
 
 interface IAppState {
   storageValue?: string | number,
@@ -29,7 +17,7 @@ interface IAppState {
   accounts?: string[];
   contract?: ITruffleContract;
   newReview?: string;
-  establishmentName?: string;
+  establishmentName: string;
   reviewValue?: string;
 };
 
@@ -37,7 +25,8 @@ class App extends Component<{}, IAppState> {
   constructor(props: {}) {
     super(props);
     this.state = {
-      contract: undefined
+      contract: undefined,
+      establishmentName: ""
     };
   }
 
@@ -79,7 +68,6 @@ class App extends Component<{}, IAppState> {
         console.log("no web3");
       }
     } catch (error) {
-      debugger;
       alert(error.message);
     }
   };
@@ -88,16 +76,14 @@ class App extends Component<{}, IAppState> {
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
+
     return (
       <div className="App">
-        <p>
-          <button onClick={this.createEstablishment}>Create Establishment</button>
-        </p>
         <p>
           <textarea value={this.state.newReview} onChange={this.onChange} />
           <button onClick={this.createReview}>Write Review</button>
         </p>
-        <div>Establishment Name: {this.state.establishmentName}</div>
+        <Establishments />
         <div>
           <b>Review</b>
           <div>{this.state.reviewValue}</div>
@@ -106,31 +92,17 @@ class App extends Component<{}, IAppState> {
     );
   }
 
-  private createEstablishment = async () => {
-    const { accounts, contract } = this.state;
-    // Stores a given value, 5 by default.
-    // await contract.set(5, { from: accounts[0] });
-    if (contract && accounts) {
-      console.log("Creating establishment");
-      await contract.addEstablishment("Avacado Gallore", {
-        from: accounts[0]
-      });
-      // Get the value from the contract to prove it worked.
-      const response = await contract.getEstablishmentName(0);
-      // Update state with the result.
-      this.setState({ storageValue: response });
-    } else {
-      console.log("not enough info to create an estblishment");
-    }
-  };
-
   private getFirstEstablishment = async (contract: ITruffleContract) => {
     const response = await contract.getEstablishmentName(0);
     this.setState({ establishmentName: response });
-    const reviewEvent = contract.ReviewAdded({}, "latest");
+    const reviewEvent = contract.ReviewAdded();
     const that = this;
     reviewEvent.watch((error: any, result: any) => {
-      that.setState({ reviewValue: result.args.review });
+      if (!error) {
+        that.setState({ reviewValue: result.args.review });
+      } else {
+        console.log(result);
+      }
     });
   };
 

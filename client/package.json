@@ -7,7 +7,8 @@
     "react-dom": "^16.5.2",
     "react-scripts-ts": "2.17.0",
     "truffle-contract": "latest",
-    "web3": "latest"
+    "web3": "latest",
+    "react-ui-cards": "latest"
   },
   "scripts": {
     "start": "react-scripts-ts start",
