@@ -79,11 +79,13 @@ class App extends Component<{}, IAppState> {
 
     return (
       <div className="App">
+        {this.state.contract && this.state.accounts &&
+          <Establishments contract={this.state.contract} accounts={this.state.accounts} />
+        }
         <p>
           <textarea value={this.state.newReview} onChange={this.onChange} />
           <button onClick={this.createReview}>Write Review</button>
         </p>
-        <Establishments />
         <div>
           <b>Review</b>
           <div>{this.state.reviewValue}</div>
@@ -93,8 +95,6 @@ class App extends Component<{}, IAppState> {
   }
 
   private getFirstEstablishment = async (contract: ITruffleContract) => {
-    const response = await contract.getEstablishmentName(0);
-    this.setState({ establishmentName: response });
     const reviewEvent = contract.ReviewAdded();
     const that = this;
     reviewEvent.watch((error: any, result: any) => {

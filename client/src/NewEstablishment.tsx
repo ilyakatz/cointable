@@ -11,7 +11,7 @@ interface IState {
 
 
 class NewEstablishment extends Component<IContractProps, IState> {
-  constructor(props: {}) {
+  constructor(props: IContractProps) {
     super(props);
     this.state = {
       name: undefined
@@ -25,7 +25,7 @@ class NewEstablishment extends Component<IContractProps, IState> {
         header='https://loremflickr.com/320/240/food?lock=new'
         name={this.state.name}
       >
-        <input />
+        <input value={this.state.name} onChange={this.onChange} />
         <p>
           <button onClick={this.createEstablishment}>Create Establishment</button>
         </p>
@@ -35,9 +35,9 @@ class NewEstablishment extends Component<IContractProps, IState> {
 
   private createEstablishment = async () => {
     const { accounts, contract } = this.props;
-    if (contract && accounts) {
+    if (this.state.name) {
       console.log("Creating establishment");
-      await contract.addEstablishment("Avacado Gallore", {
+      await contract.addEstablishment(this.state.name, {
         from: accounts[0]
       });
       // Get the value from the contract to prove it worked.
@@ -49,6 +49,9 @@ class NewEstablishment extends Component<IContractProps, IState> {
     }
   };
 
+  private onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ name: event.currentTarget.value });
+  };
 }
 
 export default NewEstablishment;

@@ -4,26 +4,54 @@ import * as React from "react";
 import { UserCard } from "react-ui-cards";
 import Establishment from "./Establishment";
 import NewEstablishment from "./NewEstablishment";
-import { IContractProps } from "./types";
+import { IContractProps, IEstablishment } from "./types";
 
-class Establishments extends Component<IContractProps, {}> {
+interface IState {
+  establishments: IEstablishment[]
+}
+class Establishments extends Component<IContractProps, IState> {
   constructor(props: IContractProps) {
     super(props);
+    this.state = {
+      establishments: new Array<IEstablishment>()
+    };
+  }
+
+  public componentDidMount = async () => {
+    this.getCurrentEstablishments();
+
+    const reviewEvent = this.props.contract.EstablishmentAdded();
+    const that = this;
+    reviewEvent.watch((error: any, result: any) => {
+      if (!error) {
+        that.setState((state) => {
+          state.establishments.push({
+            name: result.args.name
+          });
+          return state;
+        });
+      } else {
+        console.log(result);
+      }
+    });
   }
 
   public render() {
-    const establishments = [{
-      name: "Avacado gallore"
-    }
-    ];
     return (
       <div className='cardContainer'>
-        {establishments.map(item => (
+        {this.state.establishments.map(item => (
           <Establishment name={item.name} />
         ))}
-        <NewEstablishment />
+        <NewEstablishment {...this.props} />
       </div>
     );
+  }
+
+  private getCurrentEstablishments = async () => {
+    const response = await this.props.contract.getEstablishmentName(0);
+    this.state.establishments.push({
+      name: response
+    });
   }
 };
 

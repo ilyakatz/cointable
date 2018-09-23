@@ -2,6 +2,7 @@ export interface ITruffleContract {
   addEstablishment: (name: string, options: IContractOptions) => void;
   getEstablishmentName: (id: number) => string;
   ReviewAdded: () => IEvent;
+  EstablishmentAdded: () => IEvent;
   addReview: (review: string, establishmentId: number, options: {}) => void;
 }
 
@@ -14,8 +15,8 @@ export interface IContractOptions {
   value?: number;
 }
 export interface IContractProps {
-  accounts?: string[];
-  contract?: ITruffleContract;
+  accounts: string[];
+  contract: ITruffleContract;
 }
 
 export interface IEstablishment {
