@@ -38,11 +38,15 @@ class Establishments extends Component<IContractProps, IState> {
 
   public render() {
     return (
-      <div className='cardContainer'>
+      <div className='ui four column doubling stackable grid container'>
         {this.state.establishments.map(item => (
-          <Establishment name={item.name} />
+          <div className="column">
+            <Establishment name={item.name} />
+          </div>
         ))}
-        <NewEstablishment {...this.props} />
+        <div className="column">
+          <NewEstablishment {...this.props} />
+        </div>
       </div>
     );
   }

@@ -2,6 +2,7 @@ import { Component } from "react";
 import * as React from "react";
 // @ts-ignore
 import { UserCard } from "react-ui-cards";
+import { Button, Card, Icon, Input } from 'semantic-ui-react'
 import { IContractProps } from "./types";
 
 interface IState {
@@ -20,16 +21,20 @@ class NewEstablishment extends Component<IContractProps, IState> {
 
   public render() {
     return (
-      <UserCard
-        cardClass='float'
-        header='https://loremflickr.com/320/240/food?lock=new'
-        name={this.state.name}
-      >
-        <input value={this.state.name} onChange={this.onChange} />
-        <p>
-          <button onClick={this.createEstablishment}>Create Establishment</button>
-        </p>
-      </UserCard>
+      <Card>
+        <Card.Content>
+          <Icon name='plus square outline' size='massive' />
+          <Card.Header>{this.state.name}</Card.Header>
+        </Card.Content>
+        <Card.Content >
+          <div className="column">
+            <Input value={this.state.name} onChange={this.onChange} placeholder='Name...' />
+          </div>
+          <div className="column">
+            <Button primary={true} onClick={this.createEstablishment}>Create Establishment</Button>
+          </div>
+        </Card.Content>
+      </Card>
     );
   }
 
@@ -40,10 +45,6 @@ class NewEstablishment extends Component<IContractProps, IState> {
       await contract.addEstablishment(this.state.name, {
         from: accounts[0]
       });
-      // Get the value from the contract to prove it worked.
-      // const response = await contract.getEstablishmentName(0);
-      // Update state with the result.
-      // this.setState({ storageValue: response });
     } else {
       console.log("not enough info to create an estblishment");
     }

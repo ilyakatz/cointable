@@ -2,7 +2,7 @@ import { Component } from "react";
 import * as React from "react";
 // @ts-ignore
 import { UserCard } from "react-ui-cards";
-import "./Establishment.css";
+import { Card, Icon, Image } from 'semantic-ui-react'
 
 interface IProps {
   name: string;
@@ -18,11 +18,19 @@ class Establishment extends Component<IProps, {}> {
 
   public render() {
     return (
-      <UserCard
-        cardClass='float'
-        header="https://loremflickr.com/320/240/food"
-        name={this.props.name}
-      />
+      <Card>
+        <Image src='https://loremflickr.com/320/240/food' />
+        <Card.Content>
+          <Card.Header>{this.props.name}</Card.Header>
+          <Card.Description>{this.props.name}</Card.Description>
+        </Card.Content>
+        <Card.Content >
+          <a>
+            <Icon name='sticky note' />
+            22 Reviews
+        </a>
+        </Card.Content>
+      </Card>
     );
   }
 }
