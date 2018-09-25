@@ -41,9 +41,9 @@ class NewEstablishment extends Component<IContractProps, IState> {
         from: accounts[0]
       });
       // Get the value from the contract to prove it worked.
-      const response = await contract.getEstablishmentName(0);
+      // const response = await contract.getEstablishmentName(0);
       // Update state with the result.
-      this.setState({ storageValue: response });
+      // this.setState({ storageValue: response });
     } else {
       console.log("not enough info to create an estblishment");
     }

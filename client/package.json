@@ -8,7 +8,8 @@
     "react-scripts-ts": "2.17.0",
     "truffle-contract": "latest",
     "web3": "latest",
-    "react-ui-cards": "latest"
+    "react-ui-cards": "latest",
+    "big-number": "latest"
   },
   "scripts": {
     "start": "react-scripts-ts start",

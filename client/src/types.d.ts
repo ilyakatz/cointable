@@ -1,9 +1,12 @@
+import BigNumber from "bignumber.js";
+
 export interface ITruffleContract {
   addEstablishment: (name: string, options: IContractOptions) => void;
   getEstablishmentName: (id: number) => string;
   ReviewAdded: () => IEvent;
   EstablishmentAdded: () => IEvent;
   addReview: (review: string, establishmentId: number, options: {}) => void;
+  getNextEstablishmentId: () => BigNumber;
 }
 
 export interface IEvent {

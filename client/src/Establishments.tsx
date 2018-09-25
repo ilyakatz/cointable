@@ -48,10 +48,16 @@ class Establishments extends Component<IContractProps, IState> {
   }
 
   private getCurrentEstablishments = async () => {
-    const response = await this.props.contract.getEstablishmentName(0);
-    this.state.establishments.push({
-      name: response
-    });
+    const id = (await this.props.contract.getNextEstablishmentId()).toNumber();
+    const that = this;
+    for (let i = 0; i < id; i++) {
+      // @ts-ignore
+      this.props.contract.getEstablishmentName(i).then((result) => {
+        that.state.establishments.push({
+          name: result
+        });
+      });
+    }
   }
 };
 
