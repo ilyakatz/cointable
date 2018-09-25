@@ -25,7 +25,7 @@ class Establishments extends Component<IContractProps, IState> {
     reviewEvent.watch((error: any, result: any) => {
       if (!error) {
         that.setState((state) => {
-          state.establishments.push({
+          state.establishments.unshift({
             name: result.args.name
           });
           return state;
@@ -39,14 +39,14 @@ class Establishments extends Component<IContractProps, IState> {
   public render() {
     return (
       <div className='ui four column doubling stackable grid container'>
+        <div className="column">
+          <NewEstablishment {...this.props} />
+        </div>
         {this.state.establishments.map(item => (
           <div className="column">
             <Establishment name={item.name} />
           </div>
         ))}
-        <div className="column">
-          <NewEstablishment {...this.props} />
-        </div>
       </div>
     );
   }
