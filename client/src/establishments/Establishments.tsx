@@ -2,9 +2,9 @@ import { Component } from "react";
 import * as React from "react";
 // @ts-ignore
 import { UserCard } from "react-ui-cards";
+import { IContractProps, IEstablishment } from "../typings/types";
 import Establishment from "./Establishment";
 import NewEstablishment from "./NewEstablishment";
-import { IContractProps, IEstablishment } from "./types";
 
 interface IState {
   establishments: IEstablishment[]

@@ -3,7 +3,7 @@ import * as React from "react";
 // @ts-ignore
 import { UserCard } from "react-ui-cards";
 import { Button, Card, Icon, Input } from 'semantic-ui-react'
-import { IContractProps } from "./types";
+import { IContractProps } from "../typings/types";
 
 interface IState {
   name?: string;

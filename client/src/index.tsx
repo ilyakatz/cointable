@@ -1,11 +1,32 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import {
+  BrowserRouter as Router,
+  Link,
+  Route
+} from 'react-router-dom'
 import App from './App';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
+const CoinTable = () => (
+  <Router>
+    <div>
+      <ul>
+        <li><Link to="/">Home</Link></li>
+      </ul>
+
+      <hr />
+
+      <Route exact={true} path="/" component={App} />
+      <Route path="/about" component={App} />
+    </div>
+  </Router>
+)
+
 ReactDOM.render(
-  <App />,
+  <CoinTable />,
   document.getElementById('root') as HTMLElement
 );
+
 registerServiceWorker();

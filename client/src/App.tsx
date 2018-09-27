@@ -7,8 +7,8 @@ import * as truffleContract from "truffle-contract";
 import * as Web3 from "web3";
 import "./App.css";
 import * as Cointable from "./contracts/Cointable.json";
-import Establishments from "./Establishments";
-import { ITruffleContract } from "./types";
+import Establishments from "./establishments/Establishments";
+import { ITruffleContract } from "./typings/types";
 import getWeb3 from "./utils/getWeb3";
 
 interface IAppState {
