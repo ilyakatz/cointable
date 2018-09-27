@@ -1,9 +1,11 @@
 // @ts-ignore
+import * as truffleContract from "truffle-contract";
 import * as Web3 from "web3";
+import * as Cointable from "../contracts/Cointable.json";
 
 let p: Promise<Web3>;
 
-const getWeb3 = (): Promise<Web3> => {
+export const getWeb3 = (): Promise<Web3> => {
   if (!p) {
     p = new Promise<Web3>((resolve, reject) => {
       // Wait for loading completion to avoid race conditions with web3 injection timing.
@@ -28,4 +30,22 @@ const getWeb3 = (): Promise<Web3> => {
   return p;
 };
 
-export default getWeb3;
+export const getContract = async () => {
+  const web3 = await getWeb3();
+  const acc = await web3.eth.getAccounts((a) => {
+    console.log("got accounts", a);
+  });
+  console.log("Account array is", acc);
+  // Get the contract instance.
+  console.log("Getting contract");
+  const Contract = truffleContract(Cointable);
+
+  console.log("Got contract");
+  Contract.setProvider(web3.currentProvider);
+
+  console.log("web3.currentProvider", web3.currentProvider);
+
+  const instance = await Contract.deployed();
+
+  return [acc, instance];
+}
