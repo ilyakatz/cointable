@@ -1,4 +1,5 @@
 import BigNumber from "bignumber.js";
+import WalletStore from "../store/ContractStore";
 
 export interface ITruffleContract {
   addEstablishment: (name: string, options: IContractOptions) => void;
@@ -24,4 +25,8 @@ export interface IContractProps {
 
 export interface IEstablishment {
   name: string;
+}
+
+export interface IAppProps {
+  store?: WalletStore;
 }

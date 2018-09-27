@@ -8,21 +8,29 @@ import {
 import App from './App';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
+import WalletStore from './store/ContractStore';
 
-const CoinTable = () => (
-  <Router>
-    <div>
-      <ul>
-        <li><Link to="/">Home</Link></li>
-      </ul>
+const CoinTable = () => {
+  return (
+    <Router>
+      <div>
+        <ul>
+          <li><Link to="/">Home</Link></li>
+        </ul>
 
-      <hr />
+        <hr />
 
-      <Route exact={true} path="/" component={App} />
-      <Route path="/about" component={App} />
-    </div>
-  </Router>
-)
+        <Route exact={true} path="/" component={() => (
+          <div>
+            <App store={new WalletStore()} />
+          </div>
+        )}
+        />
+        <Route path="/about" component={App} />
+      </div>
+    </Router>
+  );
+}
 
 ReactDOM.render(
   <CoinTable />,

@@ -11,10 +11,11 @@
       "scripthost"
     ],
     "sourceMap": true,
+    "experimentalDecorators": true,
     "alwaysStrict": true,
     "noEmitOnError": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": false
+    "noUnusedParameters": false,
   },
   "include": [
     "src",

@@ -9,7 +9,9 @@
   },
   "rules": {
     "no-debugger": false,
+    "jsx-no-lambda": false,
     "jsx-no-multiline-js": false,
-    "no-console": false
+    "no-console": false,
+    "strictFunctionTypes": false
   }
 }
