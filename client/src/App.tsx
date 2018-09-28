@@ -33,9 +33,7 @@ class App extends React.Component<IAppProps, IAppState> {
 
     return (
       <div className="App">
-        {this.props.store.isInitialized() &&
-          <Establishments store={this.props.store} establishmentsStore={new EstablishmentsStore()} />
-        }
+        <Establishments store={this.props.store} establishmentsStore={new EstablishmentsStore()} />
         <p>
           <textarea value={this.state.newReview} onChange={this.onChange} />
           <button onClick={this.createReview}>Write Review</button>
