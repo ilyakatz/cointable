@@ -14,7 +14,7 @@
     "experimentalDecorators": true,
     "alwaysStrict": true,
     "noEmitOnError": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": false,
   },
   "include": [

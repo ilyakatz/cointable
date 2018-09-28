@@ -24,6 +24,7 @@ export interface IContractProps {
 }
 
 export interface IEstablishment {
+  id: number;
   name: string;
 }
 

@@ -3,6 +3,7 @@ import { ChangeEvent } from "react";
 import * as React from "react";
 import "./App.css";
 import Establishments from "./establishments/Establishments";
+import EstablishmentsStore from "./store/EstablishmentsStore";
 import { IAppProps, ITruffleContract } from "./typings/types";
 
 interface IAppState {
@@ -33,7 +34,7 @@ class App extends React.Component<IAppProps, IAppState> {
     return (
       <div className="App">
         {this.props.store.isInitialized() &&
-          <Establishments contract={this.props.store.contract} accounts={this.props.store.accounts} />
+          <Establishments store={this.props.store} establishmentsStore={new EstablishmentsStore()} />
         }
         <p>
           <textarea value={this.state.newReview} onChange={this.onChange} />

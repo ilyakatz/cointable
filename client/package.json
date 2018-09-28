@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "big-number": "latest",
-    "mobx": "^5.5.0",
-    "mobx-react": "^5.2.8",
+    "mobx": "^4.1.0",
+    "mobx-react": "^5.0.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-router-dom": "^4.3.1",

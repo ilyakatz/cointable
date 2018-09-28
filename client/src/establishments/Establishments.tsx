@@ -1,34 +1,35 @@
+import { observer } from "mobx-react/custom"
 import { Component } from "react";
 import * as React from "react";
 // @ts-ignore
 import { UserCard } from "react-ui-cards";
-import { IContractProps, IEstablishment } from "../typings/types";
+import WalletStore from "../store/ContractStore";
+import EstablishmentsStore from "../store/EstablishmentsStore";
 import Establishment from "./Establishment";
 import NewEstablishment from "./NewEstablishment";
 
-interface IState {
-  establishments: IEstablishment[]
+interface IProps {
+  store: WalletStore;
+  establishmentsStore: EstablishmentsStore;
 }
-class Establishments extends Component<IContractProps, IState> {
-  constructor(props: IContractProps) {
+@observer
+class Establishments extends Component<IProps, {}> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
-      establishments: new Array<IEstablishment>()
     };
   }
 
   public componentDidMount = async () => {
     this.getCurrentEstablishments();
 
-    const reviewEvent = this.props.contract.EstablishmentAdded();
+    const reviewEvent = this.props.store.contract.EstablishmentAdded();
     const that = this;
     reviewEvent.watch((error: any, result: any) => {
       if (!error) {
-        that.setState((state) => {
-          state.establishments.unshift({
-            name: result.args.name
-          });
-          return state;
+        that.props.establishmentsStore.addEstablishment({
+          id: result.args.id.valueOf(),
+          name: result.args.name
         });
       } else {
         console.log(result);
@@ -40,9 +41,9 @@ class Establishments extends Component<IContractProps, IState> {
     return (
       <div className='ui four column doubling stackable grid container'>
         <div className="column">
-          <NewEstablishment {...this.props} />
+          <NewEstablishment contract={this.props.store.contract} accounts={this.props.store.accounts} />
         </div>
-        {this.state.establishments.map(item => (
+        {this.props.establishmentsStore.getEstablishments().map(item => (
           <div className="column">
             <Establishment name={item.name} />
           </div>
@@ -52,12 +53,13 @@ class Establishments extends Component<IContractProps, IState> {
   }
 
   private getCurrentEstablishments = async () => {
-    const id = (await this.props.contract.getNextEstablishmentId()).toNumber();
+    const id = (await this.props.store.contract.getNextEstablishmentId()).toNumber();
     const that = this;
     for (let i = 0; i < id; i++) {
       // @ts-ignore
-      this.props.contract.getEstablishmentName(i).then((result) => {
-        that.state.establishments.push({
+      this.props.store.contract.getEstablishmentName(i).then((result) => {
+        that.props.establishmentsStore.addEstablishment({
+          id: i,
           name: result
         });
       });
