@@ -5,7 +5,7 @@ import {
   Link,
   Route
 } from 'react-router-dom'
-import App from './App';
+import Establishment from './establishment/Establishment';
 import Establishments from './establishments/Establishments';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
@@ -14,7 +14,7 @@ import EstablishmentsStore from './store/EstablishmentsStore';
 
 const CoinTable = () => {
   const walletStore = new WalletStore();
-  const establishmentsStore = new EstablishmentsStore();
+  const establishmentsStore = new EstablishmentsStore(walletStore);
   return (
     <Router>
       <div>
@@ -30,7 +30,16 @@ const CoinTable = () => {
           </div>
         )}
         />
-        <Route path="/about" component={App} />
+        <Route exact={true} path="/establishment/:id" component={(props) => {
+          const p = Object.assign({}, ...props, { walletStore, establishmentsStore });
+          return (
+            <div>
+              <Establishment {...p} />
+            </div>
+          )
+        }
+        }
+        />
       </div>
     </Router>
   );

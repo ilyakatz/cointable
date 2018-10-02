@@ -8,7 +8,6 @@ class WalletStore {
 
   constructor() {
     console.log("Wallet Store initializing....")
-
   }
 
   @action
