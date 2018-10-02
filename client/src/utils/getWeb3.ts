@@ -35,12 +35,9 @@ export const getContract = async () => {
   const acc = await web3.eth.getAccounts((a) => {
     console.log("got accounts", a);
   });
-  console.log("Account array is", acc);
   // Get the contract instance.
-  console.log("Getting contract");
   const Contract = truffleContract(Cointable);
 
-  console.log("Got contract");
   Contract.setProvider(web3.currentProvider);
 
   console.log("web3.currentProvider", web3.currentProvider);

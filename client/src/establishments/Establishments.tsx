@@ -1,3 +1,4 @@
+import { reaction } from "mobx";
 import { observer } from "mobx-react/custom"
 import { Component } from "react";
 import * as React from "react";
@@ -20,9 +21,22 @@ class Establishments extends Component<IProps, {}> {
     };
   }
 
-  public componentDidMount = async () => {
-    this.getCurrentEstablishments();
+  public componentDidMount = () => {
+    this.props.store.getWeb3Details();
+    const that = this;
+    reaction(
+      // observe when contract changes:
+      () => this.props.store.getContract,
+      // load establishments and setup listen event
+      (contract) => {
+        that.getCurrentEstablishments();
+        that.listenToEvent();
+      }
+    );
+  }
 
+  public listenToEvent = () => {
+    console.log("Setting up listening to event");
     const reviewEvent = this.props.store.contract.EstablishmentAdded();
     const that = this;
     reviewEvent.watch((error: any, result: any) => {
@@ -38,6 +52,10 @@ class Establishments extends Component<IProps, {}> {
   }
 
   public render() {
+    if (!(this.props.store.isInitialized())) {
+      return (<div> Loading Web3, accounts, and contract... </div>);
+    }
+
     return (
       <div className='ui four column doubling stackable grid container'>
         <div className="column">
@@ -52,18 +70,21 @@ class Establishments extends Component<IProps, {}> {
     );
   }
 
-  private getCurrentEstablishments = async () => {
-    const id = (await this.props.store.contract.getNextEstablishmentId()).toNumber();
-    const that = this;
-    for (let i = 0; i < id; i++) {
-      // @ts-ignore
-      this.props.store.contract.getEstablishmentName(i).then((result) => {
-        that.props.establishmentsStore.addEstablishment({
-          id: i,
-          name: result
+  private getCurrentEstablishments = () => {
+    // @ts-ignore
+    this.props.store.contract.getNextEstablishmentId().then((result) => {
+      const id = result.toNumber();
+      const that = this;
+      for (let i = 0; i < id; i++) {
+        // @ts-ignore
+        this.props.store.contract.getEstablishmentName(i).then((res) => {
+          that.props.establishmentsStore.addEstablishment({
+            id: i,
+            name: res
+          });
         });
-      });
-    }
+      }
+    });
   }
 };
 

@@ -6,11 +6,15 @@ import {
   Route
 } from 'react-router-dom'
 import App from './App';
+import Establishments from './establishments/Establishments';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import WalletStore from './store/ContractStore';
+import EstablishmentsStore from './store/EstablishmentsStore';
 
 const CoinTable = () => {
+  const walletStore = new WalletStore();
+  const establishmentsStore = new EstablishmentsStore();
   return (
     <Router>
       <div>
@@ -22,7 +26,7 @@ const CoinTable = () => {
 
         <Route exact={true} path="/" component={() => (
           <div>
-            <App store={new WalletStore()} />
+            <Establishments store={walletStore} establishmentsStore={establishmentsStore} />
           </div>
         )}
         />
