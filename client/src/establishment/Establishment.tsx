@@ -30,6 +30,7 @@ class Establishment extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
+      establishment: this.props.establishmentsStore.getEstablishment(props.match.params.id),
       establishmentStore: new EstablishmentStore(
         this.props.match.params.id,
         this.props.walletStore,
@@ -46,7 +47,6 @@ class Establishment extends Component<IProps, IState> {
       () => this.props.walletStore.getContract,
       (contract) => {
         this.state.establishmentStore.loadEstablishment();
-        console.log("onctracrt loaded");
       }
     );
     reaction(

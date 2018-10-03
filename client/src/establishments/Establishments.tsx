@@ -2,8 +2,7 @@ import { reaction } from "mobx";
 import { observer } from "mobx-react/custom"
 import { Component } from "react";
 import * as React from "react";
-// @ts-ignore
-import { UserCard } from "react-ui-cards";
+import { Link } from 'react-router-dom'
 import WalletStore from "../store/ContractStore";
 import EstablishmentsStore from "../store/EstablishmentsStore";
 import Establishment from "./Establishment";
@@ -37,9 +36,9 @@ class Establishments extends Component<IProps, {}> {
 
   public listenToEvent = () => {
     console.log("Setting up listening to event");
-    const reviewEvent = this.props.store.contract.EstablishmentAdded();
+    const establishmentEvent = this.props.store.contract.EstablishmentAdded();
     const that = this;
-    reviewEvent.watch((error: any, result: any) => {
+    establishmentEvent.watch((error: any, result: any) => {
       if (!error) {
         that.props.establishmentsStore.addEstablishment({
           id: result.args.id.valueOf(),
@@ -63,7 +62,9 @@ class Establishments extends Component<IProps, {}> {
         </div>
         {this.props.establishmentsStore.getEstablishments().map(item => (
           <div className="column">
-            <Establishment name={item.name} />
+            <Link to={`establishment/${item.id}`}>
+              <Establishment name={item.name} />
+            </Link>
           </div>
         ))}
       </div>
