@@ -6,6 +6,9 @@ class WalletStore {
   @observable public accounts?: string[];
   @observable public contract: ITruffleContract;
 
+  // minimum amount to create a review is 1 ETH
+  private MINIMUM_REVIEW_PAYMENT = 10 ** 18;
+
   constructor() {
     console.log("Wallet Store initializing....")
   }
@@ -56,6 +59,13 @@ class WalletStore {
   @computed
   public get getContract(): ITruffleContract {
     return this.contract;
+  }
+
+  public async setReview(review: string, establishmentId: number) {
+    await this.contract.addReview(review, establishmentId, {
+      from: this.accounts[0],
+      value: this.MINIMUM_REVIEW_PAYMENT
+    });
   }
 }
 

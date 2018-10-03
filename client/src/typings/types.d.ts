@@ -4,14 +4,25 @@ import WalletStore from "../store/ContractStore";
 export interface ITruffleContract {
   addEstablishment: (name: string, options: IContractOptions) => void;
   getEstablishmentName: (id: number) => string;
-  ReviewAdded: () => IEvent;
+  ReviewAdded: () => IReviewEvent;
   EstablishmentAdded: () => IEvent;
-  addReview: (review: string, establishmentId: number, options: {}) => void;
+  addReview: (review: string, establishmentId: number, options: {
+    from: string,
+    value: number
+  }) => void;
   getNextEstablishmentId: () => BigNumber;
 }
 
 export interface IEvent {
   watch: (callback: (error: any, result: any) => void) => void
+}
+
+export interface IReviewEvent {
+  watch: (callback: (error: any, result: IReviewEventResult) => void) => void
+}
+
+export interface IReviewEventResult {
+  args: { establishmentId: any, review: string }
 }
 
 export interface IContractOptions {
@@ -30,4 +41,9 @@ export interface IEstablishment {
 
 export interface IAppProps {
   store?: WalletStore;
+}
+
+export interface IReview {
+  establishmentId: number;
+  review: string;
 }

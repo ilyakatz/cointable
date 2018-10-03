@@ -7,7 +7,9 @@ import { Grid, Header, Image } from 'semantic-ui-react'
 import WalletStore from "../store/ContractStore";
 import EstablishmentsStore from "../store/EstablishmentsStore";
 import EstablishmentStore from "../store/EstablishmentStore";
-import { IEstablishment } from "../typings/types";
+import { IEstablishment, IReview, IReviewEventResult } from "../typings/types";
+import NewReview from "./NewReview";
+import Review from "./Review";
 
 interface IParams {
   id: number;
@@ -23,6 +25,7 @@ interface IState {
   id: number,
   establishmentStore: EstablishmentStore;
   establishment?: IEstablishment,
+  reviews: IReview[],
 }
 
 @observer
@@ -37,6 +40,7 @@ class Establishment extends Component<IProps, IState> {
         this.props.establishmentsStore
       ),
       id: props.match.params.id,
+      reviews: new Array()
     };
   }
 
@@ -47,12 +51,12 @@ class Establishment extends Component<IProps, IState> {
       () => this.props.walletStore.getContract,
       (contract) => {
         this.state.establishmentStore.loadEstablishment();
+        this.watchForReviews();
       }
     );
     reaction(
       () => this.state.establishmentStore.getEstablishment,
       (e) => {
-        console.log("got e", e);
         that.setState((prevState) => {
           // establishment: e 
           return { establishment: e };
@@ -68,18 +72,49 @@ class Establishment extends Component<IProps, IState> {
 
     if (this.state.establishment) {
       return (
-        <Grid>
-          <Grid.Column width={4}>
-            <Image src='https://loremflickr.com/320/240/food' />
-          </Grid.Column>
-          <Grid.Column width={9}>
-            <Header size='huge'>{this.state.establishment.name}</Header>
-          </Grid.Column>
-        </Grid>
+        <div>
+          <Grid>
+            <Grid.Column width={4}>
+              <Image src='https://loremflickr.com/320/240/food' />
+            </Grid.Column>
+            <Grid.Column width={9}>
+              <Header size='huge'>{this.state.establishment.name}</Header>
+            </Grid.Column>
+          </Grid>
+          {this.state.reviews.map(item => (
+            <div className="column">
+              <Review review={item} />
+            </div>
+          ))}
+          <NewReview walletStore={this.props.walletStore} establishmentId={this.state.establishment.id} />
+        </div>
+
       );
     } else {
       return (<div>...loading</div>);
     }
+  }
+
+  private watchForReviews = () => {
+    const reviewEvent = this.props.walletStore.contract.ReviewAdded();
+    const that = this;
+    reviewEvent.watch((error: any, result: IReviewEventResult) => {
+      if (!error) {
+        console.log("Recieved new review from blockchain");
+        const establishmentId = parseInt(result.args.establishmentId.valueOf(), 0);
+        const review = result.args.review;
+        const r = {
+          establishmentId,
+          review
+        };
+        that.setState((state) => {
+          state.reviews.push(r);
+          return state;
+        });
+      } else {
+        console.log(result);
+      }
+    });
   }
 }
 
