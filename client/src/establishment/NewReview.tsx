@@ -27,7 +27,7 @@ class NewReview extends Component<IProps, IState> {
       <Card>
         <Card.Content >
           <div className="column">
-            <TextArea rows={4} style={{ minWidth: 200 }} autoHeight={true} value={this.state.review} onChange={this.onChange} placeholder='Review...' />
+            <TextArea rows={4} style={{ minWidth: 260, minHeight: 170 }} autoHeight={true} value={this.state.review} onChange={this.onChange} placeholder='Review...' />
           </div>
           <div className="column">
             <Button primary={true} onClick={this.createReview}>Write Review</Button>

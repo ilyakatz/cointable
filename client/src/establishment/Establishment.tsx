@@ -77,7 +77,10 @@ class Establishment extends Component<IProps, IState> {
             <Grid.Column width={4}>
               <Image src='https://loremflickr.com/320/240/food' />
             </Grid.Column>
-            <Grid.Column width={9}>
+            <Grid.Column width={4}>
+              <NewReview walletStore={this.props.walletStore} establishmentId={this.state.establishment.id} />
+            </Grid.Column>
+            <Grid.Column width={5}>
               <Header size='huge'>{this.state.establishment.name}</Header>
             </Grid.Column>
           </Grid>
@@ -86,7 +89,6 @@ class Establishment extends Component<IProps, IState> {
               <Review review={item} />
             </div>
           ))}
-          <NewReview walletStore={this.props.walletStore} establishmentId={this.state.establishment.id} />
         </div>
 
       );
