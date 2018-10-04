@@ -21,7 +21,7 @@ class Establishment extends Component<IProps, {}> {
   public render() {
     return (
       <Card>
-        <Image src='https://loremflickr.com/320/240/food' />
+        <Image src='/food.jpg' />
         <Card.Content>
           <Link to={`establishment/${this.props.id}`}>
             <Card.Header>{this.props.name}</Card.Header>
