@@ -11,6 +11,8 @@ export interface ITruffleContract {
     value: number
   }) => void;
   getNextEstablishmentId: () => BigNumber;
+  getReview: (id: BigNumber) => [number, string, string],
+  getEstablishmetReviewMapping: (establishmentId: BigNumber) => BigNumber[]
 }
 
 export interface IEvent {

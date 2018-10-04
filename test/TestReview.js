@@ -4,7 +4,7 @@ const truffleAssert = require('truffle-assertions');
 //1 ETH = 10^18
 //so this will be 1/1000 of an ETH
 const ETH = 10 ** 18;
-
+const MIN_REVIEW_VALUE = ETH;
 
 contract("Cointable: Reviews", async (accounts) => {
   const [account1, account2] = accounts;
@@ -84,4 +84,53 @@ contract("Cointable: Reviews", async (accounts) => {
   });
 
   it("does not allow reviews for invalid establishment")
+
+  it("retrieves review", async () => {
+    let newReviewId;
+    let txResult = await cointable.addReview(
+      "This place doesn't have good wifi",
+      establishmentId,
+      {
+        from: account2,
+        value: MIN_REVIEW_VALUE
+      });
+    truffleAssert.eventEmitted(txResult, 'ReviewAdded', (ev) => {
+      newReviewId = ev.id.valueOf();
+      return true;
+    });
+    let r = await cointable.getReview(newReviewId);
+    const reviewId = r[0].valueOf();
+    const reviewText = r[1];
+    const addr = r[2];
+    assert.equal(establishmentId, reviewId);
+    assert.equal(reviewText, "This place doesn't have good wifi");
+    assert.equal(account2, addr);
+  });
+
+  it("add association of reviews with an establishment", async () => {
+    let newReviewId;
+    await cointable.addReview(
+      "Great sandwiches",
+      establishmentId,
+      {
+        from: account2,
+        value: MIN_REVIEW_VALUE
+      });
+
+    await cointable.addReview(
+      "Service was ok, but could be better",
+      establishmentId,
+      {
+        from: account2,
+        value: MIN_REVIEW_VALUE
+      });
+
+    let reviews = await cointable.getEstablishmetReviewMapping(establishmentId);
+    const reviewIds = reviews.map((r) => {
+      return parseInt(r.valueOf());
+    });
+    assert.include(reviewIds, 0);
+    assert.include(reviewIds, 1);
+    assert.equal(reviews.length, 2);
+  });
 });

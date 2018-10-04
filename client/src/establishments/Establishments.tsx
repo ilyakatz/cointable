@@ -40,7 +40,7 @@ class Establishments extends Component<IProps, {}> {
     establishmentEvent.watch((error: any, result: any) => {
       if (!error) {
         that.props.establishmentsStore.addEstablishment({
-          address: "", // TODO
+          address: "", // TODO 
           id: result.args.id.valueOf(),
           name: result.args.name
         });

@@ -1,10 +1,11 @@
 import { action, computed, observable } from 'mobx';
-import { IEstablishment } from '../typings/types';
+import { IEstablishment, IReview } from '../typings/types';
 import WalletStore from './ContractStore';
 import EstablishmentsStore from './EstablishmentsStore';
 
 class EstablishmentStore {
   @observable public establishment: IEstablishment;
+  @observable public reviews: IReview[];
   private walletStore: WalletStore;
   private establishmentsStore: EstablishmentsStore;
   private id: number;
@@ -41,12 +42,24 @@ class EstablishmentStore {
             name: res[1],
           }
           this.establishmentsStore.addEstablishment(e);
+          this.getReviews(this.walletStore, this.id);
           this.establishment = e;
         } else {
           console.error("No establishment with id ", this.id);
         }
       });
     }
+  }
+
+  private getReviews(store: WalletStore, establishmentId: number) {
+    console.log("Getting reviews for ", establishmentId);
+    // @ts-ignore
+    store.contract.getEstablishmetReviewMapping(establishmentId).then((res) => {
+      const reviewIds = res.map((r) => {
+        return r.valueOf();
+      });
+      console.log("ReviewIds", reviewIds);
+    });
   }
 }
 

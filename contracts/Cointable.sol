@@ -36,12 +36,15 @@ contract Cointable {
   uint public minimumReviewRequirement = 1 * (10 ** 18);
 
   mapping(uint256 => Establishment) private establishments;
+
+  // all reviews for an establishment
+  mapping(uint256 => uint256[]) private establishmentToReviews;
   uint256 public nextEstablishmentId;
   event EstablishmentAdded(uint256 id, string name);
 
   mapping(uint256 => Review) private reviews;
   uint256 private nextReviewId;
-  event ReviewAdded(uint256 establishmentId, string review, address submitter);
+  event ReviewAdded(uint256 id, uint256 establishmentId, string review, address submitter);
 
   constructor() public {
     owner = msg.sender;
@@ -95,7 +98,6 @@ contract Cointable {
     reviewBank[owner] += msg.value;
     reviewBankTotal += msg.value;
 
-
     // Add review
     Review memory r = Review({
       submitter: from,
@@ -104,8 +106,11 @@ contract Cointable {
     });
     reviews[nextReviewId] = (r);
 
+    // Record id of this review to be associated with an establishment
+    establishmentToReviews[establishmentId].push(nextReviewId);
+
     // Send event that a review is added
-    emit ReviewAdded(establishmentId, review, from);
+    emit ReviewAdded(nextReviewId, establishmentId, review, from);
     nextReviewId++;
   }
 
@@ -113,7 +118,11 @@ contract Cointable {
     return (establishments[id].id, establishments[id].name, establishments[id].submitter);
   }
 
-  function getReviewText(uint256 id) public view returns(string) {
-    return reviews[id].review;
+  function getReview(uint256 id) public view returns(uint, string, address) {
+    return (reviews[id].establishmentId, reviews[id].review, reviews[id].submitter);
+  }
+
+  function getEstablishmetReviewMapping(uint256 establishmentId) public view returns(uint[]) {
+    return establishmentToReviews[establishmentId];
   }
 }
