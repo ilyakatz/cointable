@@ -1,6 +1,7 @@
 import { Component } from "react";
 import * as React from "react";
-import { Button, Card, Icon, Input, TextArea } from 'semantic-ui-react'
+import { Button, Card, Icon, Input, TextArea } from 'semantic-ui-react';
+import { Comment, Form } from 'semantic-ui-react';
 import WalletStore from "../store/ContractStore";
 import { IContractProps } from "../typings/types";
 
@@ -24,16 +25,15 @@ class NewReview extends Component<IProps, IState> {
 
   public render() {
     return (
-      <Card>
-        <Card.Content >
-          <div className="column">
-            <TextArea rows={4} style={{ minWidth: 260, minHeight: 170 }} autoHeight={true} value={this.state.review} onChange={this.onChange} placeholder='Review...' />
-          </div>
-          <div className="column">
-            <Button primary={true} onClick={this.createReview}>Write Review</Button>
-          </div>
-        </Card.Content>
-      </Card>
+      <Comment>
+        <Comment.Avatar as='a' src='https://react.semantic-ui.com/images/avatar/small/stevie.jpg' />
+        <Comment.Content>
+          <Form reply={true}>
+            <Form.TextArea content={this.state.review} onChange={this.onChange} />
+            <Button content='Write Review' labelPosition='left' icon='edit' primary={true} onClick={this.createReview} />
+          </Form>
+        </Comment.Content>
+      </Comment>
     );
   }
 

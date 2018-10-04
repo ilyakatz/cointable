@@ -1,6 +1,6 @@
 import { Component } from "react";
 import * as React from "react";
-import { Card, Icon, Image } from 'semantic-ui-react'
+import { Comment, Icon, Image } from 'semantic-ui-react'
 import { IReview } from "../typings/types";
 
 interface IProps {
@@ -14,14 +14,21 @@ class Review extends Component<IProps, {}> {
 
   public render() {
     return (
-      <Card>
-        <Card.Content>
-          <Card.Description>
-            <Image src='/review.png' size="mini" />
+      <Comment>
+        <Comment.Avatar as='a' src='https://react.semantic-ui.com/images/avatar/small/stevie.jpg' />
+        <Comment.Content>
+          <Comment.Author>Stevie Feliciano</Comment.Author>
+          <Comment.Metadata>
+            <div>2 days ago</div>
+            <div>
+              <Icon name='star' />
+            </div>
+          </Comment.Metadata>
+          <Comment.Text>
             {this.props.review.review}
-          </Card.Description>
-        </Card.Content>
-      </Card>
+          </Comment.Text>
+        </Comment.Content>
+      </Comment>
     );
   }
 }

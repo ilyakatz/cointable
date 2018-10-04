@@ -3,7 +3,8 @@ import { observer } from "mobx-react/custom"
 import { Component } from "react";
 import * as React from "react";
 // @ts-ignore
-import { Grid, Header, Image } from 'semantic-ui-react'
+import { Grid, Header, Image } from 'semantic-ui-react';
+import { Comment } from 'semantic-ui-react';
 import WalletStore from "../store/ContractStore";
 import EstablishmentsStore from "../store/EstablishmentsStore";
 import EstablishmentStore from "../store/EstablishmentStore";
@@ -77,18 +78,20 @@ class Establishment extends Component<IProps, IState> {
             <Grid.Column width={4}>
               <Image src='https://loremflickr.com/320/240/food' />
             </Grid.Column>
-            <Grid.Column width={4}>
-              <NewReview walletStore={this.props.walletStore} establishmentId={this.state.establishment.id} />
-            </Grid.Column>
             <Grid.Column width={5}>
               <Header size='huge'>{this.state.establishment.name}</Header>
+              <NewReview walletStore={this.props.walletStore} establishmentId={this.state.establishment.id} />
+              <Comment.Group>
+                {this.state.reviews.map(item => (
+                  <div className="column">
+                    <Comment.Group>
+                      <Review review={item} />
+                    </Comment.Group>
+                  </div>
+                ))}
+              </Comment.Group>
             </Grid.Column>
           </Grid>
-          {this.state.reviews.map(item => (
-            <div className="column">
-              <Review review={item} />
-            </div>
-          ))}
         </div>
 
       );
