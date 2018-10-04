@@ -3,7 +3,7 @@ import WalletStore from "../store/ContractStore";
 
 export interface ITruffleContract {
   addEstablishment: (name: string, options: IContractOptions) => void;
-  getEstablishmentName: (id: number) => string;
+  getEstablishment: (id: number) => [number, string, string];
   ReviewAdded: () => IReviewEvent;
   EstablishmentAdded: () => IEvent;
   addReview: (review: string, establishmentId: number, options: {
@@ -37,6 +37,7 @@ export interface IContractProps {
 export interface IEstablishment {
   id: number;
   name: string;
+  address: string;
 }
 
 export interface IAppProps {

@@ -30,7 +30,12 @@ contract TestEstablishments {
     cointable.addEstablishment("The Coffeeshop");
     uint256 id = uint256(cointable.getNextEstablishmentId());
     id--;
-    string memory name = cointable.getEstablishmentName(id);
+
+    uint returnId;
+    string memory name;
+    address addr;
+
+    (returnId, name, addr) = cointable.getEstablishment(id);
     Assert.equal(name, "The Coffeeshop", "Should get name of coffeeshop");
   }
 
@@ -38,7 +43,12 @@ contract TestEstablishments {
     cointable.addEstablishment("Coffee");
     uint256 id = uint256(cointable.getNextEstablishmentId());
     id--;
-    address who = cointable.getEstablishmentSubmitter(id);
+
+    uint returnId;
+    string memory name;
+    address who;
+
+    (returnId, name, who) = cointable.getEstablishment(id);
     Assert.isNotZero(who, "Should save submitter");
   }
 }

@@ -2,7 +2,6 @@ import { reaction } from "mobx";
 import { observer } from "mobx-react/custom"
 import { Component } from "react";
 import * as React from "react";
-import { Link } from 'react-router-dom'
 import WalletStore from "../store/ContractStore";
 import EstablishmentsStore from "../store/EstablishmentsStore";
 import Establishment from "./Establishment";
@@ -41,6 +40,7 @@ class Establishments extends Component<IProps, {}> {
     establishmentEvent.watch((error: any, result: any) => {
       if (!error) {
         that.props.establishmentsStore.addEstablishment({
+          address: "", // TODO
           id: result.args.id.valueOf(),
           name: result.args.name
         });
@@ -62,9 +62,7 @@ class Establishments extends Component<IProps, {}> {
         </div>
         {this.props.establishmentsStore.getEstablishments().map(item => (
           <div className="column">
-            <Link to={`establishment/${item.id}`}>
-              <Establishment name={item.name} />
-            </Link>
+            <Establishment name={item.name} submitter={item.address} id={item.id} />
           </div>
         ))}
       </div>
@@ -78,10 +76,11 @@ class Establishments extends Component<IProps, {}> {
       const that = this;
       for (let i = 0; i < id; i++) {
         // @ts-ignore
-        this.props.store.contract.getEstablishmentName(i).then((res) => {
+        this.props.store.contract.getEstablishment(i).then((res) => {
           that.props.establishmentsStore.addEstablishment({
+            address: res[2],
             id: i,
-            name: res
+            name: res[1]
           });
         });
       }

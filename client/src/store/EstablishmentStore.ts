@@ -32,12 +32,13 @@ class EstablishmentStore {
       return v;
     } else {
       // @ts-ignore
-      this.walletStore.contract.getEstablishmentName(this.id).then((res) => {
+      this.walletStore.contract.getEstablishment(this.id).then((res) => {
         if (res) {
           console.log("Found establishment on the blockchain", res);
           const e = {
+            address: res[2],
             id: this.id,
-            name: res
+            name: res[1],
           }
           this.establishmentsStore.addEstablishment(e);
           this.establishment = e;

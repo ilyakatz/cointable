@@ -83,7 +83,7 @@ contract Cointable {
     nextEstablishmentId++;
   }
 
-  function addReview(string review, uint256 establishmentId) payable public {
+  function addReview(string review, uint256 establishmentId) public payable {
     address from = msg.sender;
 
     // revert() and require() both refund any left over gas
@@ -109,16 +109,8 @@ contract Cointable {
     nextReviewId++;
   }
 
-  function getEstablishmentName(uint id) public view returns(string) {
-    return establishments[id].name;
-  }
-
-  function getEstablishmentId(uint id) public view returns(uint) {
-    return establishments[id].id;
-  }
-
-  function getEstablishmentSubmitter(uint id) public view returns(address) {
-    return establishments[id].submitter;
+  function getEstablishment(uint id) public view returns(uint, string, address) {
+    return (establishments[id].id, establishments[id].name, establishments[id].submitter);
   }
 
   function getReviewText(uint256 id) public view returns(string) {

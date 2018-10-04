@@ -7,7 +7,7 @@ import { Grid, Header, Image } from 'semantic-ui-react'
 import WalletStore from "../store/ContractStore";
 import EstablishmentsStore from "../store/EstablishmentsStore";
 import EstablishmentStore from "../store/EstablishmentStore";
-import { IEstablishment, IReview, IReviewEventResult } from "../typings/types";
+import { IEstablishment, IReview, IReviewEventResult, ITruffleContract } from "../typings/types";
 import NewReview from "./NewReview";
 import Review from "./Review";
 
@@ -51,7 +51,7 @@ class Establishment extends Component<IProps, IState> {
       () => this.props.walletStore.getContract,
       (contract) => {
         this.state.establishmentStore.loadEstablishment();
-        this.watchForReviews();
+        this.watchForReviews(contract);
       }
     );
     reaction(
@@ -97,9 +97,8 @@ class Establishment extends Component<IProps, IState> {
     }
   }
 
-  private watchForReviews = () => {
-    const reviewEvent = this.props.walletStore.contract.ReviewAdded();
-    const that = this;
+  private watchForReviews = (contract: ITruffleContract) => {
+    const reviewEvent = contract.ReviewAdded();
     reviewEvent.watch((error: any, result: IReviewEventResult) => {
       if (!error) {
         console.log("Recieved new review from blockchain");
@@ -109,7 +108,7 @@ class Establishment extends Component<IProps, IState> {
           establishmentId,
           review
         };
-        that.setState((state) => {
+        this.setState((state) => {
           state.reviews.push(r);
           return state;
         });
@@ -117,6 +116,10 @@ class Establishment extends Component<IProps, IState> {
         console.log(result);
       }
     });
+  }
+
+  private loadReviews = (contract: ITruffleContract) => {
+    console.log("Loading all reviews for", this.state.id);
   }
 }
 

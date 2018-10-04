@@ -11,11 +11,10 @@ contract("Cointable", async (accounts) => {
 
   describe("Establishment", async () => {
     it("adds a new establishment", async () => {
-      let contract;
       let firstId = await cointable.nextEstablishmentId.call().valueOf();
 
       await cointable.addEstablishment("Avacado Gallore");
-      let name = await cointable.getEstablishmentName(firstId)
+      let name = (await cointable.getEstablishment(firstId))[1];
       assert.equal(name, "Avacado Gallore");
     });
 
@@ -47,7 +46,7 @@ contract("Cointable", async (accounts) => {
       });
     });
 
-    it("getEstablishmentName", async () => {
+    it("getEstablishment", async () => {
       let createdId;
       var event = cointable.EstablishmentAdded(async (error, result) => {
         assert.equal(error, null);
@@ -56,8 +55,11 @@ contract("Cointable", async (accounts) => {
       });
       await cointable.addEstablishment("The Coffeeshop");
 
-      let name = await cointable.getEstablishmentName(createdId);
+      const est = await cointable.getEstablishment(createdId);
+      const name = est[1];
+      const address = est[2];
       assert.equal(name, "The Coffeeshop");
+      assert.equal(address, firstAccount);
     });
   });
 });
