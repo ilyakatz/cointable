@@ -98,7 +98,7 @@ class EstablishmentStore {
         const r = {
           establishmentId,
           review,
-          submitter: "0x0"
+          submitter: result.args.submitter
         };
         this.reviews.unshift(r);
       } else {

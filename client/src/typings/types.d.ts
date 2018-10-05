@@ -24,7 +24,11 @@ export interface IReviewEvent {
 }
 
 export interface IReviewEventResult {
-  args: { establishmentId: any, review: string }
+  args: {
+    establishmentId: any,
+    review: string,
+    submitter: string
+  }
 }
 
 export interface IContractOptions {

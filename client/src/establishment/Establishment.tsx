@@ -2,9 +2,10 @@ import { reaction } from "mobx";
 import { observer } from "mobx-react/custom"
 import { Component } from "react";
 import * as React from "react";
+import { Link } from 'react-router-dom';
+import { Comment, Divider } from 'semantic-ui-react';
 // @ts-ignore
-import { Grid, Header, Image } from 'semantic-ui-react';
-import { Comment } from 'semantic-ui-react';
+import { Breadcrumb, Grid, Header, Image } from 'semantic-ui-react';
 import WalletStore from "../store/ContractStore";
 import EstablishmentsStore from "../store/EstablishmentsStore";
 import EstablishmentStore from "../store/EstablishmentStore";
@@ -71,6 +72,14 @@ class Establishment extends Component<IProps, IState> {
     if (this.state.establishment) {
       return (
         <div>
+          <Breadcrumb size='big'>
+            <Link to={`/`}>
+              <Breadcrumb.Section>Home</Breadcrumb.Section>
+            </Link>
+            <Breadcrumb.Divider icon='right chevron' />
+            <Breadcrumb.Section>{this.state.establishment.name}</Breadcrumb.Section>
+          </Breadcrumb>
+          <Divider horizontal={true} />
           <Grid>
             <Grid.Column width={4}>
               <Image src='https://loremflickr.com/320/240/food' />

@@ -29,7 +29,9 @@ class Establishment extends Component<IProps, {}> {
           <Card.Description>
             <Card.Content>
               <Icon name='user circle' />
-              {this.props.submitter.substr(0, 28)}
+              <a href={`https://etherscan.io/address/${this.props.submitter}`}>
+                {this.props.submitter.substr(0, 28)}
+              </a>
             </Card.Content>
           </Card.Description>
         </Card.Content>

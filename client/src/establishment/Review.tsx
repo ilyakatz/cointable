@@ -15,9 +15,13 @@ class Review extends Component<IProps, {}> {
   public render() {
     return (
       <Comment>
-        <Comment.Avatar as='a' src='https://react.semantic-ui.com/images/avatar/small/stevie.jpg' />
+        <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/stevie.jpg' />
         <Comment.Content>
-          <Comment.Author>Stevie Feliciano</Comment.Author>
+          <Comment.Author>
+            <a href={`https://etherscan.io/address/${this.props.review.submitter}`}>
+              {this.props.review.submitter}
+            </a>
+          </Comment.Author>
           <Comment.Metadata>
             <div>2 days ago</div>
             <div>

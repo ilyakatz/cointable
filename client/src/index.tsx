@@ -18,12 +18,6 @@ const CoinTable = () => {
   return (
     <Router>
       <div>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-        </ul>
-
-        <hr />
-
         <Route exact={true} path="/" component={() => (
           <div>
             <Establishments store={walletStore} establishmentsStore={establishmentsStore} />
