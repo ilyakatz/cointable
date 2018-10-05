@@ -1,9 +1,8 @@
 import { Component } from "react";
 import * as React from "react";
-import { Button, Card, Icon, Input, TextArea } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { Comment, Form } from 'semantic-ui-react';
 import WalletStore from "../store/ContractStore";
-import { IContractProps } from "../typings/types";
 
 interface IState {
   review?: string;

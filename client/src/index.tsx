@@ -5,8 +5,10 @@ import {
   Link,
   Route
 } from 'react-router-dom'
+import { Header, Image } from 'semantic-ui-react';
 import Establishment from './establishment/Establishment';
 import Establishments from './establishments/Establishments';
+import Heading from './Heading';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import WalletStore from './store/ContractStore';
@@ -18,6 +20,7 @@ const CoinTable = () => {
   return (
     <Router>
       <div>
+        <Heading contractStore={walletStore} />
         <Route exact={true} path="/" component={() => (
           <div>
             <Establishments store={walletStore} establishmentsStore={establishmentsStore} />

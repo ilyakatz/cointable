@@ -2,6 +2,7 @@
 import * as truffleContract from "truffle-contract";
 import * as Web3 from "web3";
 import * as Cointable from "../contracts/Cointable.json";
+import { ITruffleContract } from "../typings/types";
 
 let p: Promise<Web3>;
 
@@ -44,5 +45,9 @@ export const getContract = async () => {
 
   const instance = await Contract.deployed();
 
-  return [acc, instance];
+  return [
+    acc,
+    instance,
+    web3
+  ];
 }

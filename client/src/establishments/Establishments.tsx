@@ -21,7 +21,6 @@ class Establishments extends Component<IProps, {}> {
   }
 
   public componentDidMount = () => {
-    this.props.store.getWeb3Details();
     const that = this;
     reaction(
       // observe when contract changes:
