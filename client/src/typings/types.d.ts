@@ -49,4 +49,5 @@ export interface IAppProps {
 export interface IReview {
   establishmentId: number;
   review: string;
+  submitter: string;
 }

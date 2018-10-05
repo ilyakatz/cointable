@@ -1,5 +1,5 @@
-import { action, computed, observable } from 'mobx';
-import { IEstablishment, IReview } from '../typings/types';
+import { action, computed, observable, reaction } from 'mobx';
+import { IEstablishment, IReview, IReviewEventResult, ITruffleContract } from '../typings/types';
 import WalletStore from './ContractStore';
 import EstablishmentsStore from './EstablishmentsStore';
 
@@ -14,6 +14,14 @@ class EstablishmentStore {
     this.id = id;
     this.walletStore = walletStore;
     this.establishmentsStore = establishmentsStore;
+    this.reviews = observable.array([]);
+
+    reaction(
+      () => this.walletStore.getContract,
+      (contract) => {
+        this.watchForReviews(contract);
+      }
+    );
   }
 
   @action.bound
@@ -26,6 +34,12 @@ class EstablishmentStore {
     return this.establishment;
   }
 
+  @computed
+  public get getReviews(): IReview[] {
+    return this.reviews;
+  }
+
+  @action.bound
   public loadEstablishment() {
     console.log("loadEstablishment");
     const v = this.establishmentsStore.getEstablishment(this.id);
@@ -35,14 +49,13 @@ class EstablishmentStore {
       // @ts-ignore
       this.walletStore.contract.getEstablishment(this.id).then((res) => {
         if (res) {
-          console.log("Found establishment on the blockchain", res);
           const e = {
             address: res[2],
             id: this.id,
             name: res[1],
           }
           this.establishmentsStore.addEstablishment(e);
-          this.getReviews(this.walletStore, this.id);
+          this.getReviewsFromBlockchain(this.walletStore, this.id);
           this.establishment = e;
         } else {
           console.error("No establishment with id ", this.id);
@@ -51,14 +64,46 @@ class EstablishmentStore {
     }
   }
 
-  private getReviews(store: WalletStore, establishmentId: number) {
+  @action.bound
+  private getReviewsFromBlockchain(store: WalletStore, establishmentId: number) {
     console.log("Getting reviews for ", establishmentId);
     // @ts-ignore
     store.contract.getEstablishmetReviewMapping(establishmentId).then((res) => {
-      const reviewIds = res.map((r) => {
-        return r.valueOf();
+      res.map((r) => {
+        this.addReview(store, r.valueOf());
       });
-      console.log("ReviewIds", reviewIds);
+    });
+  }
+
+  @action.bound
+  private addReview(store: WalletStore, id: number) {
+    // @ts-ignore
+    store.contract.getReview(id).then((res) => {
+      const r = {
+        establishmentId: this.establishment.id,
+        review: res[1],
+        submitter: res[2]
+      };
+      this.reviews.push(r);
+    });
+  }
+
+  private watchForReviews = (contract: ITruffleContract) => {
+    const reviewEvent = contract.ReviewAdded();
+    reviewEvent.watch((error: any, result: IReviewEventResult) => {
+      if (!error) {
+        console.log("Recieved new review from blockchain");
+        const establishmentId = parseInt(result.args.establishmentId.valueOf(), 0);
+        const review = result.args.review;
+        const r = {
+          establishmentId,
+          review,
+          submitter: "0x0"
+        };
+        this.reviews.unshift(r);
+      } else {
+        console.log(result);
+      }
     });
   }
 }
