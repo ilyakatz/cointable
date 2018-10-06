@@ -2,7 +2,7 @@ import { Component } from "react";
 import * as React from "react";
 // @ts-ignore
 import { UserCard } from "react-ui-cards";
-import { Button, Card, Icon, Input } from 'semantic-ui-react'
+import { Button, Card, Form, Icon, Input } from 'semantic-ui-react'
 import { IContractProps } from "../typings/types";
 
 interface IState {
@@ -22,17 +22,15 @@ class NewEstablishment extends Component<IContractProps, IState> {
   public render() {
     return (
       <Card>
-        <Card.Content>
+        <Card.Content textAlign='center'>
           <Icon name='plus square outline' size='massive' />
           <Card.Header>{this.state.name}</Card.Header>
         </Card.Content>
         <Card.Content >
-          <div className="column">
+          <Form reply={true}>
             <Input value={this.state.name} onChange={this.onChange} placeholder='Name...' />
-          </div>
-          <div className="column">
-            <Button primary={true} onClick={this.createEstablishment}>Create Establishment</Button>
-          </div>
+            <Button content='Create Establishment' labelPosition='left' icon='edit' primary={true} onClick={this.createEstablishment} />
+          </Form>
         </Card.Content>
       </Card>
     );
@@ -44,6 +42,9 @@ class NewEstablishment extends Component<IContractProps, IState> {
       console.log("Creating establishment");
       await contract.addEstablishment(this.state.name, {
         from: accounts[0]
+      });
+      this.setState({
+        name: ""
       });
     } else {
       console.log("not enough info to create an estblishment");
