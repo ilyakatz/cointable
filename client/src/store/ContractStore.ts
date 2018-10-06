@@ -86,8 +86,9 @@ class WalletStore {
   @action.bound
   public async getBalanceFromEth() {
     const balance = await this.web3.eth.getBalance(this.web3.eth.defaultAccount);
-    // const eth = this.web3.fromWei(balance, 'ether');
-    this.setBalance(balance.toString());
+    // @ts-ignore
+    const eth = this.web3.utils.fromWei(balance, "ether");
+    this.setBalance(eth.toString());
   }
 
   @computed

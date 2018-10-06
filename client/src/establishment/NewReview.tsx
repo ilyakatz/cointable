@@ -1,6 +1,6 @@
 import { Component } from "react";
 import * as React from "react";
-import { Button } from 'semantic-ui-react';
+import { Button, Header } from 'semantic-ui-react';
 import { Comment, Form } from 'semantic-ui-react';
 import WalletStore from "../store/ContractStore";
 
@@ -25,7 +25,7 @@ class NewReview extends Component<IProps, IState> {
   public render() {
     return (
       <Comment>
-        <Comment.Avatar as='a' src='https://react.semantic-ui.com/images/avatar/small/stevie.jpg' />
+        <Header size='small'>Write A Review</Header>
         <Comment.Content>
           <Form reply={true}>
             <Form.TextArea content={this.state.review} onChange={this.onChange} />

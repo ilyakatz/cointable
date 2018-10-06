@@ -3,7 +3,7 @@ import { observer } from "mobx-react/custom"
 import { Component } from "react";
 import * as React from "react";
 import { Link } from 'react-router-dom';
-import { Comment, Divider } from 'semantic-ui-react';
+import { Comment, Divider, Loader } from 'semantic-ui-react';
 // @ts-ignore
 import { Breadcrumb, Grid, Header, Image } from 'semantic-ui-react';
 import WalletStore from "../store/ContractStore";
@@ -66,13 +66,13 @@ class Establishment extends Component<IProps, IState> {
 
   public render() {
     if (!(this.props.walletStore.isInitialized())) {
-      return (<div> Loading Web3, accounts, and contract... </div>);
+      return (<Loader>Loading</Loader>);
     }
 
     if (this.state.establishment) {
       return (
-        <div>
-          <Breadcrumb size='big'>
+        <div className='ui four column doubling stackable grid container'>
+          <Breadcrumb size='small'>
             <Link to={`/`}>
               <Breadcrumb.Section>Home</Breadcrumb.Section>
             </Link>
@@ -83,11 +83,14 @@ class Establishment extends Component<IProps, IState> {
           <Grid>
             <Grid.Column width={4}>
               <Image src='https://loremflickr.com/320/240/food' />
-            </Grid.Column>
-            <Grid.Column width={5}>
               <Header size='huge'>{this.state.establishment.name}</Header>
+            </Grid.Column>
+            <Grid.Column width={6}>
               <NewReview walletStore={this.props.walletStore} establishmentId={this.state.establishment.id} />
-              <Comment.Group>
+              <Header as='h3' dividing={true}>
+                Comminity Reviews
+              </Header>
+              <Comment.Group >
                 {this.state.establishmentStore.getReviews.map(item => (
                   <div className="column">
                     <Comment.Group>
@@ -102,7 +105,7 @@ class Establishment extends Component<IProps, IState> {
 
       );
     } else {
-      return (<div>...loading</div>);
+      return (<Loader>Loading</Loader>);
     }
   }
 }

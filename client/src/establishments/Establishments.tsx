@@ -2,7 +2,7 @@ import { reaction } from "mobx";
 import { observer } from "mobx-react/custom"
 import { Component } from "react";
 import * as React from "react";
-import { Breadcrumb } from "semantic-ui-react";
+import { Breadcrumb, Loader } from "semantic-ui-react";
 import WalletStore from "../store/ContractStore";
 import EstablishmentsStore from "../store/EstablishmentsStore";
 import Establishment from "./Establishment";
@@ -52,7 +52,7 @@ class Establishments extends Component<IProps, {}> {
 
   public render() {
     if (!(this.props.store.isInitialized())) {
-      return (<div> Loading Web3, accounts, and contract... </div>);
+      return (<Loader>Loading</Loader>);
     }
 
     return (

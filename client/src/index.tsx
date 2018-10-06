@@ -5,7 +5,7 @@ import {
   Link,
   Route
 } from 'react-router-dom'
-import { Header, Image } from 'semantic-ui-react';
+import { Container, Grid } from 'semantic-ui-react';
 import Establishment from './establishment/Establishment';
 import Establishments from './establishments/Establishments';
 import Heading from './Heading';
@@ -19,12 +19,10 @@ const CoinTable = () => {
   const establishmentsStore = new EstablishmentsStore(walletStore);
   return (
     <Router>
-      <div>
+      <Container>
         <Heading contractStore={walletStore} />
         <Route exact={true} path="/" component={() => (
-          <div>
-            <Establishments store={walletStore} establishmentsStore={establishmentsStore} />
-          </div>
+          <Establishments store={walletStore} establishmentsStore={establishmentsStore} />
         )}
         />
         <Route exact={true} path="/establishment/:id" component={(props) => {
@@ -37,7 +35,7 @@ const CoinTable = () => {
         }
         }
         />
-      </div>
+      </Container>
     </Router>
   );
 }
