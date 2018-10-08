@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Cointable",
+  "name": "Rate your favorites establishment and give strength to the reviews with Ether",
   "icons": [
     {
       "src": "favicon.ico",

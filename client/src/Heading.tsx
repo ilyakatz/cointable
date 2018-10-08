@@ -42,7 +42,7 @@ class Heading extends Component<IProps, IState> {
     return (
       <Header as='h5' floated='right'>
         <Step>
-          <Item.Image size='mini' src='/blockie.png' />
+          <Item.Image size='mini' circular={true} src='/blockie.png' />
           <Step.Content>
             <Step.Title>
               <a href={`https://etherscan.io/address/${this.state.account}`} target="_blank">{this.state.account.substr(0, 18)}...</a>
