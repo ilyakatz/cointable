@@ -1,13 +1,13 @@
 import { Component } from "react";
 import * as React from "react";
-// @ts-ignore
-import { UserCard } from "react-ui-cards";
-import { Button, Card, Form, Icon, Input } from 'semantic-ui-react'
+import { Button, Card, Form, Icon, Input, Message, Modal, Progress } from 'semantic-ui-react'
 import { IContractProps } from "../typings/types";
+import NewEstablishmentNotification from "./NewEstanlishmentNotification";
 
 interface IState {
   name?: string;
   storageValue?: string;
+  requestSentToBlockchain: boolean;
 }
 
 
@@ -15,25 +15,35 @@ class NewEstablishment extends Component<IContractProps, IState> {
   constructor(props: IContractProps) {
     super(props);
     this.state = {
-      name: undefined
+      name: undefined,
+      requestSentToBlockchain: false
     };
   }
 
   public render() {
     return (
-      <Card>
-        <Card.Content textAlign='center'>
-          <Icon name='plus square outline' size='massive' />
-          <Card.Header>{this.state.name}</Card.Header>
-        </Card.Content>
-        <Card.Content >
-          <Form reply={true}>
-            <Input value={this.state.name} onChange={this.onChange} placeholder='Name...' />
-            <Button content='Create Establishment' labelPosition='left' icon='edit' primary={true} onClick={this.createEstablishment} />
-          </Form>
-        </Card.Content>
-      </Card>
+      <div>
+        <NewEstablishmentNotification requestSentToBlockchain={this.state.requestSentToBlockchain} onClose={this.closeDialog} />
+        <Card>
+          <Card.Content textAlign='center'>
+            <Icon name='plus square outline' size='massive' />
+            <Card.Header>{this.state.name}</Card.Header>
+          </Card.Content>
+          <Card.Content >
+            <Form reply={true}>
+              <Input value={this.state.name} onChange={this.onChange} placeholder='Name...' />
+              <Button content='Create Establishment' labelPosition='left' icon='edit' primary={true} onClick={this.createEstablishment} />
+            </Form>
+          </Card.Content>
+        </Card>
+      </div>
     );
+  }
+
+  private closeDialog = () => {
+    this.setState({
+      requestSentToBlockchain: false
+    });
   }
 
   private createEstablishment = async () => {
@@ -44,7 +54,8 @@ class NewEstablishment extends Component<IContractProps, IState> {
         from: accounts[0]
       });
       this.setState({
-        name: ""
+        name: "",
+        requestSentToBlockchain: true
       });
     } else {
       console.log("not enough info to create an estblishment");
