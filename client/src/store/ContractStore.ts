@@ -10,7 +10,7 @@ class WalletStore {
   @observable private balance: string;
 
   // minimum amount to create a review is 1 ETH
-  private MINIMUM_REVIEW_PAYMENT = 10 ** 18;
+  private MINIMUM_REVIEW_PAYMENT = 0.001 * (10 ** 18);
 
   constructor() {
     console.log("Wallet Store initializing....");

@@ -33,7 +33,7 @@ contract Cointable {
   mapping(address => uint) public reviewBank;
 
   // to send a review, user needs to be willing to pay this minimum
-  uint public minimumReviewRequirement = 1 * (10 ** 18);
+  uint public minimumReviewRequirement = 0.0001 * (10 ** 18);
 
   mapping(uint256 => Establishment) private establishments;
 

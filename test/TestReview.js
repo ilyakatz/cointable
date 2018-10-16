@@ -66,7 +66,7 @@ contract("Cointable: Reviews", async (accounts) => {
   });
 
   it("require minimum amount to send a review", async () => {
-    sendValue = 0.9 * ETH;
+    sendValue = 0.00009 * ETH;
     let err;
     try {
       await cointable.addReview.call(
