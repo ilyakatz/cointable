@@ -8,6 +8,7 @@ interface IState {
   name?: string;
   storageValue?: string;
   requestSentToBlockchain: boolean;
+  newEstablishmentTxn?: string;
 }
 
 
@@ -23,7 +24,7 @@ class NewEstablishment extends Component<IContractProps, IState> {
   public render() {
     return (
       <div>
-        <NewEstablishmentNotification requestSentToBlockchain={this.state.requestSentToBlockchain} onClose={this.closeDialog} />
+        <NewEstablishmentNotification txn={this.state.newEstablishmentTxn} requestSentToBlockchain={this.state.requestSentToBlockchain} onClose={this.closeDialog} />
         <Card>
           <Card.Content textAlign='center'>
             <Icon name='plus square outline' size='massive' />
@@ -50,12 +51,13 @@ class NewEstablishment extends Component<IContractProps, IState> {
     const { accounts, contract } = this.props;
     if (this.state.name) {
       console.log("Creating establishment");
-      await contract.addEstablishment(this.state.name, {
+      const result = await contract.addEstablishment(this.state.name, {
         from: accounts[0]
       });
       this.setState({
         name: "",
-        requestSentToBlockchain: true
+        newEstablishmentTxn: result.tx,
+        requestSentToBlockchain: true,
       });
     } else {
       console.log("not enough info to create an estblishment");

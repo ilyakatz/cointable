@@ -1,8 +1,11 @@
 import BigNumber from "bignumber.js";
 import WalletStore from "../store/ContractStore";
 
+export interface IBlockchainResult {
+  tx: string;
+}
 export interface ITruffleContract {
-  addEstablishment: (name: string, options: IContractOptions) => void;
+  addEstablishment: (name: string, options: IContractOptions) => IBlockchainResult;
   getEstablishment: (id: number) => [number, string, string];
   ReviewAdded: () => IReviewEvent;
   EstablishmentAdded: () => IEvent;

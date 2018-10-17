@@ -97,10 +97,11 @@ class WalletStore {
   }
 
   public async setReview(review: string, establishmentId: number) {
-    await this.contract.addReview(review, establishmentId, {
+    const result = await this.contract.addReview(review, establishmentId, {
       from: this.accounts[0],
       value: this.MINIMUM_REVIEW_PAYMENT
     });
+    console.log("setReview result is ", result);
   }
 }
 
