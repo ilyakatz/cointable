@@ -14,7 +14,8 @@
   "devDependencies": {
     "lite-server": "^2.3.0",
     "truffle": "latest",
-    "truffle-assertions": "latest"
+    "truffle-assertions": "latest",
+    "truffle-hdwallet-provider": "latest"
   },
   "dependencies": {
     "web3": "latest"

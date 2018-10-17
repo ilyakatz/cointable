@@ -32,6 +32,12 @@ To run
 truffle console
 ```
 
+## Ropsten
+
+```
+truffle migrate --network ropsten
+```
+
 ## Tests
 
 To run automated tests
