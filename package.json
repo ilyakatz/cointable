@@ -18,6 +18,7 @@
     "truffle-hdwallet-provider": "latest"
   },
   "dependencies": {
+    "config-yml": "^0.10.2",
     "web3": "latest"
   }
 }

@@ -12,9 +12,12 @@
  *   },
  */
 
+const config = require('config-yml');
+
 var HDWalletProvider = require("truffle-hdwallet-provider");
 
-var mnemonic = "12 WORDS HERE;
+var mnemonic = config.deployment.mnemonic;
+console.log(mnemonic);
 
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>

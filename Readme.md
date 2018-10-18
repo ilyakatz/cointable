@@ -34,8 +34,27 @@ truffle console
 
 ## Ropsten
 
+1. Update configuration
+
+```
+cp config.yml.sample config.yml
+```
+
+Update config.yml to populate your 12 words mnemonic.
+In meta mask, you can get the mnemonic here:
+
+![alt text](./readme/seed.png)
+
+1. Comple and migrate contract
+
 ```
 truffle migrate --network ropsten
+```
+
+1. Start the web client
+```
+cd client
+yarn start
 ```
 
 ## Tests
