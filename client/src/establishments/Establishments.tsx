@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js";
 import { reaction } from "mobx";
 import { observer } from "mobx-react/custom"
 import { Component } from "react";
@@ -42,7 +43,8 @@ class Establishments extends Component<IProps, {}> {
         that.props.establishmentsStore.addEstablishment({
           address: "", // TODO 
           id: result.args.id.valueOf(),
-          name: result.args.name
+          name: result.args.name,
+          numberOfReviews: 0
         });
       } else {
         console.log(result);
@@ -62,7 +64,7 @@ class Establishments extends Component<IProps, {}> {
         </div>
         {this.props.establishmentsStore.getEstablishments().map(item => (
           <div className="column">
-            <Establishment name={item.name} submitter={item.address} id={item.id} />
+            <Establishment establishment={item} />
           </div>
         ))}
       </div>
@@ -80,7 +82,8 @@ class Establishments extends Component<IProps, {}> {
           that.props.establishmentsStore.addEstablishment({
             address: res[2],
             id: i,
-            name: res[1]
+            name: res[1],
+            numberOfReviews: res[3].valueOf()
           });
         });
       }

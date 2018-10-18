@@ -53,6 +53,7 @@ class EstablishmentStore {
             address: res[2],
             id: this.id,
             name: res[1],
+            numberOfReviews: res[3]
           }
           this.establishmentsStore.addEstablishment(e);
           this.getReviewsFromBlockchain(this.walletStore, this.id);

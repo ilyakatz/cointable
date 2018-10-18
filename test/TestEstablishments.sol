@@ -34,8 +34,9 @@ contract TestEstablishments {
     uint returnId;
     string memory name;
     address addr;
+    uint num;
 
-    (returnId, name, addr) = cointable.getEstablishment(id);
+    (returnId, name, addr, num) = cointable.getEstablishment(id);
     Assert.equal(name, "The Coffeeshop", "Should get name of coffeeshop");
   }
 
@@ -47,8 +48,9 @@ contract TestEstablishments {
     uint returnId;
     string memory name;
     address who;
+    uint num;
 
-    (returnId, name, who) = cointable.getEstablishment(id);
+    (returnId, name, who, num) = cointable.getEstablishment(id);
     Assert.isNotZero(who, "Should save submitter");
   }
 }

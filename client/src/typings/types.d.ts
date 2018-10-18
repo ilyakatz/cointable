@@ -47,6 +47,7 @@ export interface IEstablishment {
   id: number;
   name: string;
   address: string;
+  numberOfReviews: BigNumber | number;
 }
 
 export interface IAppProps {

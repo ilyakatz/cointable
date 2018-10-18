@@ -114,8 +114,13 @@ contract Cointable {
     nextReviewId++;
   }
 
-  function getEstablishment(uint id) public view returns(uint, string, address) {
-    return (establishments[id].id, establishments[id].name, establishments[id].submitter);
+  function getEstablishment(uint id) public view returns(uint, string, address, uint) {
+    return (
+      establishments[id].id,
+      establishments[id].name,
+      establishments[id].submitter,
+      establishmentToReviews[id].length
+    );
   }
 
   function getReview(uint256 id) public view returns(uint, string, address) {

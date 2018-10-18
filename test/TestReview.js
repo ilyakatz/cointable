@@ -107,6 +107,25 @@ contract("Cointable: Reviews", async (accounts) => {
     assert.equal(account2, addr);
   });
 
+  it("returns number of reviews for an establishment", async () => {
+
+    let est = await cointable.getEstablishment(establishmentId);
+    let num = est[3];
+    assert.equal(num, 0);
+
+    await cointable.addReview(
+      "Chicken tikka is a bit too spicy",
+      establishmentId,
+      {
+        from: account2,
+        value: MIN_REVIEW_VALUE
+      });
+
+    est = await cointable.getEstablishment(establishmentId);
+    num = est[3];
+    assert.equal(num, 1);
+  });
+
   it("add association of reviews with an establishment", async () => {
     let newReviewId;
     await cointable.addReview(
