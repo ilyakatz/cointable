@@ -18,7 +18,7 @@ class Review extends Component<IProps, {}> {
         <Comment.Avatar src='/blockie.png' />
         <Comment.Content>
           <Comment.Author>
-            <a href={`https://etherscan.io/address/${this.props.review.submitter}`}>
+            <a href={`https://${process.env.REACT_APP_BLOCKCHAIN_EXPLORER}/address/${this.props.review.submitter}`}>
               {this.props.review.submitter}
             </a>
           </Comment.Author>

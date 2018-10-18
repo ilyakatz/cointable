@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "big-number": "latest",
+    "dotenv": "^6.1.0",
     "mobx": "^4.1.0",
     "mobx-react": "^5.0.0",
     "react": "^16.5.2",
