@@ -51,7 +51,8 @@ class NewEstablishment extends Component<IContractProps, IState> {
     const { accounts, contract } = this.props;
     if (this.state.name) {
       console.log("Creating establishment");
-      const result = await contract.addEstablishment(this.state.name, {
+      // @ts-ignore
+      const result = await contract.methods.addEstablishment(this.state.name).send({
         from: accounts[0]
       });
       this.setState({

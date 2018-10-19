@@ -6,6 +6,7 @@ import { getContract } from "../utils/getWeb3";
 class WalletStore {
   @observable public accounts?: string[];
   @observable public contract: ITruffleContract;
+  @observable public oldContract: ITruffleContract;
   @observable private web3: Web3;
   @observable private balance: string;
 
@@ -32,7 +33,8 @@ class WalletStore {
         action("success", (result) => {
           that.setAccounts(result[0]);
           this.setContract(result[1]);
-          this.setWeb3(result[2]);
+          this.setOldContract(result[1]);
+          this.setWeb3(result[3]);
           console.log("ContractStore Initialized!");
         })
       );
@@ -46,6 +48,12 @@ class WalletStore {
   public setContract = (contract: ITruffleContract) => {
     console.log("Setting contract", contract);
     this.contract = contract;
+  }
+
+  @action.bound
+  public setOldContract = (contract: ITruffleContract) => {
+    console.log("Setting contract", contract);
+    this.oldContract = contract;
   }
 
   @action.bound
@@ -97,10 +105,16 @@ class WalletStore {
   }
 
   public async setReview(review: string, establishmentId: number, datetimeInMillis: number) {
-    const result = await this.contract.addReview(review, establishmentId, datetimeInMillis, {
+    const result = this.contract.methods.addReview(
+      review,
+      establishmentId,
+      datetimeInMillis
+    ).send({
       from: this.accounts[0],
       value: this.MINIMUM_REVIEW_PAYMENT
-    });
+    }).then((res) => {
+      console.log("Transaction sent to blockchain");
+    })
     console.log("setReview result is ", result);
   }
 }

@@ -16,6 +16,10 @@ class EstablishmentStore {
     this.establishmentsStore = establishmentsStore;
     this.reviews = observable.array([]);
 
+    if (this.walletStore.isInitialized()) {
+      this.watchForReviews(this.walletStore.contract);
+    };
+
     reaction(
       () => this.walletStore.getContract,
       (contract) => {
@@ -46,7 +50,8 @@ class EstablishmentStore {
     if (v) {
       return v;
     } else {
-      this.walletStore.contract.getEstablishment(this.id).then((res: IEstablishment) => {
+      // @ts-ignore
+      this.walletStore.contract.methods.getEstablishment(this.id).call().then((res: IEstablishment) => {
         if (res) {
           const e = {
             address: res[2],
@@ -67,8 +72,7 @@ class EstablishmentStore {
   @action.bound
   private getReviewsFromBlockchain(store: WalletStore, establishmentId: number) {
     console.log("Getting reviews for ", establishmentId);
-    // @ts-ignore
-    store.contract.getEstablishmetReviewMapping(establishmentId).then((res) => {
+    store.contract.methods.getEstablishmetReviewMapping(establishmentId).call().then((res) => {
       res.map((r) => {
         this.addReview(store, r.valueOf());
       });
@@ -77,7 +81,7 @@ class EstablishmentStore {
 
   @action.bound
   private addReview(store: WalletStore, id: number) {
-    store.contract.getReview(id).then((res) => {
+    store.contract.methods.getReview(id).call().then((res) => {
       const r = {
         date: new Date(parseInt(res[3].valueOf(), 0)),
         establishmentId: this.establishment.id,
@@ -89,25 +93,45 @@ class EstablishmentStore {
   }
 
   private watchForReviews = (contract: ITruffleContract) => {
-    const reviewEvent = contract.ReviewAdded();
-    reviewEvent.watch((error: any, result: IReviewEventResult) => {
-      if (!error) {
-        console.log("Received new review from blockchain", result.args);
-        const establishmentId = parseInt(result.args.establishmentId.valueOf(), 0);
-        const review = result.args.review;
-        // @ts-ignore
-        const date = new Date(parseInt(result.args.dateCreated.valueOf(), 0));
-        const r = {
-          date,
-          establishmentId,
-          review,
-          submitter: result.args.submitter,
-        };
-        this.reviews.unshift(r);
-      } else {
-        console.log(result);
-      }
+    console.log("Setting up listening to event");
+    contract.events.ReviewAdded({}).on('data', (event: IReviewEventResult) => {
+      console.log("Received new review from blockchain", event.returnValues);
+      const establishmentId = parseInt(event.returnValues.establishmentId.valueOf(), 0);
+      const review = event.returnValues.review;
+      // @ts-ignore
+      const date = new Date(parseInt(event.returnValues.dateCreated.valueOf(), 0));
+      const r = {
+        date,
+        establishmentId,
+        review,
+        submitter: event.returnValues.submitter,
+      };
+      this.reviews.unshift(r);
+    }).on('changed', (event) => {
+      console.log(event);
+      // remove event from local database
+    }).on('error', (error) => {
+      console.error("Error from event", error);
     });
+
+    // reviewEvent.watch((error: any, result: IReviewEventResult) => {
+    //   if (!error) {
+    //     console.log("Received new review from blockchain", result.args);
+    //     const establishmentId = parseInt(result.args.establishmentId.valueOf(), 0);
+    //     const review = result.args.review;
+    //     // @ts-ignore
+    //     const date = new Date(parseInt(result.args.dateCreated.valueOf(), 0));
+    //     const r = {
+    //       date,
+    //       establishmentId,
+    //       review,
+    //       submitter: result.args.submitter,
+    //     };
+    //     this.reviews.unshift(r);
+    //   } else {
+    //     console.log(result);
+    //   }
+    // });
   }
 }
 
