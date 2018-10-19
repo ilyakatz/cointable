@@ -51,14 +51,15 @@ class NewEstablishment extends Component<IContractProps, IState> {
     const { accounts, contract } = this.props;
     if (this.state.name) {
       console.log("Creating establishment");
-      // @ts-ignore
-      const result = await contract.methods.addEstablishment(this.state.name).send({
+
+      contract.methods.addEstablishment(this.state.name).send({
         from: accounts[0]
-      });
-      this.setState({
-        name: "",
-        newEstablishmentTxn: result.tx,
-        requestSentToBlockchain: true,
+      }).on('transactionHash', (hash) => {
+        this.setState({
+          name: "",
+          newEstablishmentTxn: hash,
+          requestSentToBlockchain: true,
+        });
       });
     } else {
       console.log("not enough info to create an estblishment");

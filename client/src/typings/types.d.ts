@@ -9,28 +9,30 @@ interface ReadOnlyBlockchainMethod<T> {
   call: () => T
 }
 
+interface IBlockchainUpdateParams {
+  from: string;
+  value?: number;
+}
 interface UpdateBlockchainMethod<T> {
-  send: ({
-    from: string,
-    value: number
-  }) => T;
+  send: (IBlockchainUpdateParams) => T;
 }
 export interface ITruffleContract {
   methods: {
-    getReview: (id: BigNumber | number) => ReadOnlyBlockchainMethod<Promise<string>>
-    getEstablishmetReviewMapping: (establishmentId: number) => ReadOnlyBlockchainMethod<Promise<number[]>>
+    addEstablishment: (name: string) => UpdateBlockchainMethod<any>;
+    getReview: (id: BigNumber | number) => ReadOnlyBlockchainMethod<Promise<string>>;
+    getEstablishmetReviewMapping: (establishmentId: number) => ReadOnlyBlockchainMethod<Promise<number[]>>;
     addReview: (review: string, establishmentId: number, datetimeInMillis: number) => UpdateBlockchainMethod<any>;
     getEstablishment: (id: number) => ReadOnlyBlockchainMethod<Promise<IEstablishment>>;
     getNextEstablishmentId: () => ReadOnlyBlockchainMethod<Promise<string>>;
   };
   addEstablishment: (name: string, options: IContractOptions) => IBlockchainResult;
-  EstablishmentAdded: () => IEvent;
   addReview: (review: string, establishmentId: number, datetimeInMillis: number, options: {
     from: string,
     value: number
   }) => void;
   events: {
     ReviewAdded: (params: {}) => any;
+    EstablishmentAdded: (params: {}) => any;
   }
 }
 
@@ -46,6 +48,7 @@ export interface IEstablishmentAddedEventResult {
   returnValues: {
     id: number;
     name: string;
+    submitter: string;
   };
 }
 export interface IReviewEventResult {

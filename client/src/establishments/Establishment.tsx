@@ -29,7 +29,7 @@ class Establishment extends Component<IProps, {}> {
             <Card.Content>
               <Icon name='user circle' />
               <a href={`https://${process.env.REACT_APP_BLOCKCHAIN_EXPLORER}/address/${this.props.establishment.address}`}>
-                {this.props.establishment.address.substr(0, 26)}
+                {this.props.establishment.address.substr(0, 25)}
               </a>
             </Card.Content>
           </Card.Description>

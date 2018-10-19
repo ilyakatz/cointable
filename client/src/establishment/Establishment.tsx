@@ -83,7 +83,7 @@ class Establishment extends Component<IProps, IState> {
           <Divider horizontal={true} />
           <Grid>
             <Grid.Column width={4}>
-              <Image src='https://loremflickr.com/320/240/food' />
+              <Image src='/food.jpg' />
               <Header size='huge'>{this.state.establishment.name}</Header>
             </Grid.Column>
             <Grid.Column width={6}>

@@ -37,12 +37,11 @@ class Establishments extends Component<IProps, {}> {
 
   public listenToEvent = () => {
     console.log("Setting up listening to event");
-    // @ts-ignore
     this.props.store.contract.events.EstablishmentAdded({
     }).on('data', (event: IEstablishmentAddedEventResult) => {
       console.log("Event recieved: ", event);
       this.props.establishmentsStore.addEstablishment({
-        address: "", // TODO 
+        address: event.returnValues.submitter,
         id: event.returnValues.id.valueOf(),
         name: event.returnValues.name,
         numberOfReviews: 0 // TODO
