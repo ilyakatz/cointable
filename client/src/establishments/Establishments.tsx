@@ -6,7 +6,7 @@ import * as React from "react";
 import { Loader } from "semantic-ui-react";
 import WalletStore from "../store/ContractStore";
 import EstablishmentsStore from "../store/EstablishmentsStore";
-import { IEstablishment } from "../typings/types";
+import { IEstablishment, IEstablishmentAddedEventResult } from "../typings/types";
 import Establishment from "./Establishment";
 import NewEstablishment from "./NewEstablishment";
 
@@ -37,19 +37,21 @@ class Establishments extends Component<IProps, {}> {
 
   public listenToEvent = () => {
     console.log("Setting up listening to event");
-    const establishmentEvent = this.props.store.contract.EstablishmentAdded();
-    const that = this;
-    establishmentEvent.watch((error: any, result: any) => {
-      if (!error) {
-        that.props.establishmentsStore.addEstablishment({
-          address: "", // TODO 
-          id: result.args.id.valueOf(),
-          name: result.args.name,
-          numberOfReviews: 0
-        });
-      } else {
-        console.log(result);
-      }
+    // @ts-ignore
+    this.props.store.contract.events.EstablishmentAdded({
+    }).on('data', (event: IEstablishmentAddedEventResult) => {
+      console.log("Event recieved: ", event);
+      this.props.establishmentsStore.addEstablishment({
+        address: "", // TODO 
+        id: event.returnValues.id.valueOf(),
+        name: event.returnValues.name,
+        numberOfReviews: 0 // TODO
+      });
+    }).on('changed', (event) => {
+      console.log(event);
+      // remove event from local database
+    }).on('error', (error) => {
+      console.error("Error from event", error);
     });
   }
 
@@ -74,12 +76,12 @@ class Establishments extends Component<IProps, {}> {
 
   private getCurrentEstablishments = () => {
     // @ts-ignore
-    this.props.store.contract.getNextEstablishmentId().then((result) => {
-      const id = result.toNumber();
+    this.props.store.contract.methods.getNextEstablishmentId().call().then((result: string) => {
+      const id = parseInt(result, 0);
       const that = this;
       for (let i = 0; i < id; i++) {
         // @ts-ignore
-        this.props.store.contract.getEstablishment(i).then((res: IEstablishment) => {
+        this.props.store.contract.methods.getEstablishment(i).call().then((res: IEstablishment) => {
           that.props.establishmentsStore.addEstablishment({
             address: res[2],
             id: i,

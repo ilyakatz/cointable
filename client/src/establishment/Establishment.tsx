@@ -46,7 +46,9 @@ class Establishment extends Component<IProps, IState> {
   }
 
   public componentDidMount = () => {
-    const that = this;
+    if (this.props.walletStore.isInitialized()) {
+      this.state.establishmentStore.loadEstablishment();
+    }
     reaction(
       () => this.props.walletStore.getContract,
       (contract) => {
@@ -56,7 +58,7 @@ class Establishment extends Component<IProps, IState> {
     reaction(
       () => this.state.establishmentStore.getEstablishment,
       (e) => {
-        that.setState((prevState) => {
+        this.setState((prevState) => {
           return { establishment: e };
         });
       }

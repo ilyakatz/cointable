@@ -5,18 +5,30 @@ export interface IBlockchainResult {
   tx: string;
 }
 export interface ITruffleContract {
+  methods: {
+    getReview: (id: BigNumber | number) => {
+      call: () => Promise<string>;
+    };
+    getEstablishmetReviewMapping: (establishmentId: number) => {
+      call: () => Promise<number[]>;
+    };
+    addReview: (review: string, establishmentId: number, datetimeInMillis: number) => {
+      send: ({
+        from: string,
+        value: number
+      }) => any;
+    };
+  };
   addEstablishment: (name: string, options: IContractOptions) => IBlockchainResult;
   getEstablishment: (id: number) => Promise<IEstablishment>;
   ReviewAdded: () => IReviewEvent;
   EstablishmentAdded: () => IEvent;
-  addReview: (review: string, establishmentId: number, datetimeInMillis: number, options: {
-    from: string,
-    value: number
-  }) => void;
-  getNextEstablishmentId: () => BigNumber;
+  getNextEstablishmentId: () => Promise<string>;
   // getReview: (id: BigNumber | number) => [number, string, string],
-  getReview: (id: BigNumber | number) => Promise<string>;
   getEstablishmetReviewMapping: (establishmentId: BigNumber) => BigNumber[];
+  events: {
+    ReviewAdded: (params: {}) => any;
+  }
 }
 
 export interface IEvent {
@@ -27,8 +39,14 @@ export interface IReviewEvent {
   watch: (callback: (error: any, result: IReviewEventResult) => void) => void
 }
 
+export interface IEstablishmentAddedEventResult {
+  returnValues: {
+    id: number;
+    name: string;
+  };
+}
 export interface IReviewEventResult {
-  args: {
+  returnValues: {
     establishmentId: any,
     review: string,
     submitter: string,

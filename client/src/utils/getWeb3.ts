@@ -43,11 +43,19 @@ export const getContract = async () => {
 
   console.log("web3.currentProvider", web3.currentProvider);
 
-  const instance = await Contract.deployed();
+  const oldContract = await Contract.deployed();
+
+  // @ts-ignore
+  const networkId = await web3.eth.net.getId();
+  // @ts-ignore
+  const deployedAddress = Cointable.networks[networkId].address
+  // @ts-ignore
+  const contract = await new web3.eth.Contract(Cointable.abi, deployedAddress)
 
   return [
     acc,
-    instance,
+    contract,
+    oldContract,
     web3
   ];
 }
