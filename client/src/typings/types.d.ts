@@ -4,28 +4,31 @@ import WalletStore from "../store/ContractStore";
 export interface IBlockchainResult {
   tx: string;
 }
+
+interface ReadOnlyBlockchainMethod<T> {
+  call: () => T
+}
+
+interface UpdateBlockchainMethod<T> {
+  send: ({
+    from: string,
+    value: number
+  }) => T;
+}
 export interface ITruffleContract {
   methods: {
-    getReview: (id: BigNumber | number) => {
-      call: () => Promise<string>;
-    };
-    getEstablishmetReviewMapping: (establishmentId: number) => {
-      call: () => Promise<number[]>;
-    };
-    addReview: (review: string, establishmentId: number, datetimeInMillis: number) => {
-      send: ({
-        from: string,
-        value: number
-      }) => any;
-    };
+    getReview: (id: BigNumber | number) => ReadOnlyBlockchainMethod<Promise<string>>
+    getEstablishmetReviewMapping: (establishmentId: number) => ReadOnlyBlockchainMethod<Promise<number[]>>
+    addReview: (review: string, establishmentId: number, datetimeInMillis: number) => UpdateBlockchainMethod<any>;
+    getEstablishment: (id: number) => ReadOnlyBlockchainMethod<Promise<IEstablishment>>;
+    getNextEstablishmentId: () => ReadOnlyBlockchainMethod<Promise<string>>;
   };
   addEstablishment: (name: string, options: IContractOptions) => IBlockchainResult;
-  getEstablishment: (id: number) => Promise<IEstablishment>;
-  ReviewAdded: () => IReviewEvent;
   EstablishmentAdded: () => IEvent;
-  getNextEstablishmentId: () => Promise<string>;
-  // getReview: (id: BigNumber | number) => [number, string, string],
-  getEstablishmetReviewMapping: (establishmentId: BigNumber) => BigNumber[];
+  addReview: (review: string, establishmentId: number, datetimeInMillis: number, options: {
+    from: string,
+    value: number
+  }) => void;
   events: {
     ReviewAdded: (params: {}) => any;
   }
