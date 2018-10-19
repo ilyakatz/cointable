@@ -39,7 +39,11 @@ class NewReview extends Component<IProps, IState> {
   private createReview = async () => {
     if (this.state.review) {
       console.log("Creating review");
-      this.props.walletStore.setReview(this.state.review, this.props.establishmentId);
+      this.props.walletStore.setReview(
+        this.state.review,
+        this.props.establishmentId,
+        Date.now()
+      );
     } else {
       console.log("not enough info to create a review");
     }

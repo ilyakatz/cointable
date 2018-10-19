@@ -27,6 +27,7 @@ contract("Cointable: Reviews", async (accounts) => {
     let txResult = await cointable.addReview(
       "Ginger and turmeric rocks!",
       establishmentId,
+      Date.now(),
       {
         value: sendValue
       }
@@ -41,6 +42,7 @@ contract("Cointable: Reviews", async (accounts) => {
     let txResult = await cointable.addReview(
       "This place doesn't have good wifi",
       establishmentId,
+      Date.now(),
       {
         from: account2,
         value: sendValue
@@ -54,6 +56,7 @@ contract("Cointable: Reviews", async (accounts) => {
     let txResult = await cointable.addReview(
       "This place doesn't have good wifi",
       establishmentId,
+      Date.now(),
       {
         from: account2,
         value: sendValue
@@ -72,6 +75,7 @@ contract("Cointable: Reviews", async (accounts) => {
       await cointable.addReview.call(
         "This place doesn't have good wifi",
         establishmentId,
+        Date.now(),
         {
           from: account2,
           value: sendValue
@@ -90,6 +94,7 @@ contract("Cointable: Reviews", async (accounts) => {
     let txResult = await cointable.addReview(
       "This place doesn't have good wifi",
       establishmentId,
+      Date.now(),
       {
         from: account2,
         value: MIN_REVIEW_VALUE
@@ -116,6 +121,7 @@ contract("Cointable: Reviews", async (accounts) => {
     await cointable.addReview(
       "Chicken tikka is a bit too spicy",
       establishmentId,
+      Date.now(),
       {
         from: account2,
         value: MIN_REVIEW_VALUE
@@ -131,6 +137,7 @@ contract("Cointable: Reviews", async (accounts) => {
     await cointable.addReview(
       "Great sandwiches",
       establishmentId,
+      Date.now(),
       {
         from: account2,
         value: MIN_REVIEW_VALUE
@@ -139,6 +146,7 @@ contract("Cointable: Reviews", async (accounts) => {
     await cointable.addReview(
       "Service was ok, but could be better",
       establishmentId,
+      Date.now(),
       {
         from: account2,
         value: MIN_REVIEW_VALUE

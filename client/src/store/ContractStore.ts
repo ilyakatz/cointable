@@ -96,8 +96,8 @@ class WalletStore {
     return this.contract;
   }
 
-  public async setReview(review: string, establishmentId: number) {
-    const result = await this.contract.addReview(review, establishmentId, {
+  public async setReview(review: string, establishmentId: number, datetimeInMillis: number) {
+    const result = await this.contract.addReview(review, establishmentId, datetimeInMillis, {
       from: this.accounts[0],
       value: this.MINIMUM_REVIEW_PAYMENT
     });

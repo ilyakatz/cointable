@@ -78,12 +78,12 @@ class EstablishmentStore {
 
   @action.bound
   private addReview(store: WalletStore, id: number) {
-    // @ts-ignore
     store.contract.getReview(id).then((res) => {
       const r = {
+        date: new Date(parseInt(res[3].valueOf(), 0)),
         establishmentId: this.establishment.id,
         review: res[1],
-        submitter: res[2]
+        submitter: res[2],
       };
       this.reviews.push(r);
     });
@@ -93,13 +93,16 @@ class EstablishmentStore {
     const reviewEvent = contract.ReviewAdded();
     reviewEvent.watch((error: any, result: IReviewEventResult) => {
       if (!error) {
-        console.log("Recieved new review from blockchain");
+        console.log("Received new review from blockchain", result.args);
         const establishmentId = parseInt(result.args.establishmentId.valueOf(), 0);
         const review = result.args.review;
+        // @ts-ignore
+        const date = new Date(parseInt(result.args.dateCreated.valueOf(), 0));
         const r = {
+          date,
           establishmentId,
           review,
-          submitter: result.args.submitter
+          submitter: result.args.submitter,
         };
         this.reviews.unshift(r);
       } else {

@@ -19,6 +19,7 @@ contract Cointable {
     address submitter;
     string review;
     uint256 establishmentId;
+    uint256 dateCreated;
   }
 
   address public owner;
@@ -44,7 +45,7 @@ contract Cointable {
 
   mapping(uint256 => Review) private reviews;
   uint256 private nextReviewId;
-  event ReviewAdded(uint256 id, uint256 establishmentId, string review, address submitter);
+  event ReviewAdded(uint256 id, uint256 establishmentId, string review, address submitter, uint256 dateCreated);
 
   constructor() public {
     owner = msg.sender;
@@ -86,7 +87,7 @@ contract Cointable {
     nextEstablishmentId++;
   }
 
-  function addReview(string review, uint256 establishmentId) public payable {
+  function addReview(string review, uint256 establishmentId, uint256 datetimeInMillis) public payable {
     address from = msg.sender;
 
     // revert() and require() both refund any left over gas
@@ -102,7 +103,8 @@ contract Cointable {
     Review memory r = Review({
       submitter: from,
       review: review,
-      establishmentId: establishmentId
+      establishmentId: establishmentId,
+      dateCreated: datetimeInMillis
     });
     reviews[nextReviewId] = (r);
 
@@ -110,21 +112,26 @@ contract Cointable {
     establishmentToReviews[establishmentId].push(nextReviewId);
 
     // Send event that a review is added
-    emit ReviewAdded(nextReviewId, establishmentId, review, from);
+    emit ReviewAdded(nextReviewId, establishmentId, review, from, datetimeInMillis);
     nextReviewId++;
   }
 
   function getEstablishment(uint id) public view returns(uint, string, address, uint) {
     return (
-      establishments[id].id,
-      establishments[id].name,
+      establishments[id].id, 
+      establishments[id].name, 
       establishments[id].submitter,
       establishmentToReviews[id].length
     );
   }
 
-  function getReview(uint256 id) public view returns(uint, string, address) {
-    return (reviews[id].establishmentId, reviews[id].review, reviews[id].submitter);
+  function getReview(uint256 id) public view returns(uint, string, address, uint256) {
+    return (
+      reviews[id].establishmentId, 
+      reviews[id].review, 
+      reviews[id].submitter,
+      reviews[id].dateCreated
+    );
   }
 
   function getEstablishmetReviewMapping(uint256 establishmentId) public view returns(uint[]) {

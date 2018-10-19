@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import { Component } from "react";
 import * as React from "react";
 import { Comment, Icon, Image } from 'semantic-ui-react'
@@ -23,7 +24,7 @@ class Review extends Component<IProps, {}> {
             </a>
           </Comment.Author>
           <Comment.Metadata>
-            <div>2 days ago</div>
+            <div>{moment(this.props.review.date).format('MM/DD/YYYY, h:mm a')}</div>
             <div>
               <Icon name='star' />
             </div>
