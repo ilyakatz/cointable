@@ -6,7 +6,7 @@ export interface IBlockchainResult {
 }
 export interface ITruffleContract {
   addEstablishment: (name: string, options: IContractOptions) => IBlockchainResult;
-  getEstablishment: (id: number) => [number, string, string];
+  getEstablishment: (id: number) => Promise<IEstablishment>;
   ReviewAdded: () => IReviewEvent;
   EstablishmentAdded: () => IEvent;
   addReview: (review: string, establishmentId: number, datetimeInMillis: number, options: {

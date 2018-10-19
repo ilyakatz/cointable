@@ -46,14 +46,13 @@ class EstablishmentStore {
     if (v) {
       return v;
     } else {
-      // @ts-ignore
-      this.walletStore.contract.getEstablishment(this.id).then((res) => {
+      this.walletStore.contract.getEstablishment(this.id).then((res: IEstablishment) => {
         if (res) {
           const e = {
             address: res[2],
             id: this.id,
             name: res[1],
-            numberOfReviews: res[3]
+            numberOfReviews: res[3].valueOf()
           }
           this.establishmentsStore.addEstablishment(e);
           this.getReviewsFromBlockchain(this.walletStore, this.id);

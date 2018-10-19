@@ -6,6 +6,7 @@ import * as React from "react";
 import { Loader } from "semantic-ui-react";
 import WalletStore from "../store/ContractStore";
 import EstablishmentsStore from "../store/EstablishmentsStore";
+import { IEstablishment } from "../typings/types";
 import Establishment from "./Establishment";
 import NewEstablishment from "./NewEstablishment";
 
@@ -78,7 +79,7 @@ class Establishments extends Component<IProps, {}> {
       const that = this;
       for (let i = 0; i < id; i++) {
         // @ts-ignore
-        this.props.store.contract.getEstablishment(i).then((res) => {
+        this.props.store.contract.getEstablishment(i).then((res: IEstablishment) => {
           that.props.establishmentsStore.addEstablishment({
             address: res[2],
             id: i,

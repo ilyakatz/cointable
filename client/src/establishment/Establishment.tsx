@@ -46,7 +46,6 @@ class Establishment extends Component<IProps, IState> {
   }
 
   public componentDidMount = () => {
-    this.props.walletStore.getWeb3Details();
     const that = this;
     reaction(
       () => this.props.walletStore.getContract,
