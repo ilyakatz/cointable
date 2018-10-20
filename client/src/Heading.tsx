@@ -45,7 +45,7 @@ class Heading extends Component<IProps, IState> {
           <Item.Image size='mini' circular={true} src='/blockie.png' />
           <Step.Content>
             <Step.Title>
-              <a href={`https://etherscan.io/address/${this.state.account}`} target="_blank">{this.state.account.substr(0, 18)}...</a>
+              <a href={`https://${process.env.REACT_APP_BLOCKCHAIN_EXPLORER}/address/${this.state.account}`} target="_blank">{this.state.account.substr(0, 18)}...</a>
             </Step.Title>
             <Step.Description>
               <Icon name='ethereum' color="blue" />{this.state.balance} ETH

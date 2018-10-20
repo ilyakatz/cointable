@@ -8,6 +8,10 @@ yarn install
 truffle migrate
 ```
 
+# Demo
+
+![](./readme/screencast.gif)
+
 # Development
 ## Start the app
 

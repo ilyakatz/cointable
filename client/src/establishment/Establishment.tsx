@@ -89,7 +89,7 @@ class Establishment extends Component<IProps, IState> {
             <Grid.Column width={6}>
               <NewReview walletStore={this.props.walletStore} establishmentId={this.state.establishment.id} />
               <Header as='h3' dividing={true}>
-                Comminity Reviews
+                Community Reviews
               </Header>
               <Comment.Group >
                 {this.state.establishmentStore.getReviews.map(item => (
